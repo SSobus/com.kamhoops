@@ -1,0 +1,37 @@
+# Intellij User Specific files
+*.iws
+.idea/workspace.xml
+.idea/tasks.xml
+
+# Eclipse project folders
+.classpath
+.project
+.settings
+
+# Maven output folder
+target
+
+# Binary files
+*.exe
+*.dll
+*.so*
+*.dll
+*.class
+*.jar
+*.war
+
+# Ignore atlassian plugin settings as these are per user
+atlassian-ide-plugin.xml
+
+# Ignore Karma's test suite results
+test-results.xml
+
+# Stupid Apple BS
+.DS_Store
+
+# Ignore Testacular/Grunt's compiled templates
+compiledTemplates
+
+#jUnit testing folder
+catalina.*
+

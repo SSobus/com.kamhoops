@@ -1,4 +1,4 @@
 com.kamhoops
 ============
 
-Kamhoops Men's Basketball League
+Kamloops Men's Basketball League
