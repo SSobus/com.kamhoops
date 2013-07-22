@@ -1,0 +1,81 @@
+#set ($page=${request.requestURI})
+#set ($contextPath = "$!{request.contextPath}")
+
+#if(${ngApp})
+    #set ($ngApp = "${ngApp}")
+#else
+    #set ($ngApp = "Kamhoops")
+#end
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>#springMessage("lbl.site.title")</title>
+
+    <link rel="stylesheet" href="${contextPath}/resources/styles/jquery-ui-1.10.3.custom.css"/>
+
+    <script src="${contextPath}/resources/scripts/lib/jquery-1.9.1.js"></script>
+    <script src="${contextPath}/resources/scripts/lib/jquery-ui-1.10.3.custom.min.js"></script>
+    <script src="${contextPath}/resources/scripts/lib/jquery-ui-1.10.3.custom.js"></script>
+
+    <script src="${contextPath}/resources/scripts/lib/angular-1.0.7.js"></script>
+    <script src="${contextPath}/resources/scripts/lib/angular-ui-0.2.js"></script>
+    <script src="${contextPath}/resources/scripts/lib/underscore.js"></script>
+    <script src="${contextPath}/resources/scripts/lib/moment.min.js"></script>
+
+    <script src="${contextPath}/resources/scripts/lib/ui-utils.js"></script>
+    <script src="${contextPath}/resources/scripts/lib/ui-bootstrap-0.3.0.js"></script>
+    <link rel="stylesheet" href="${contextPath}/resources/styles/site.css"/>
+    <link rel="stylesheet" href="${contextPath}/resources/styles/style.css"/>
+
+## External Scripts (Page Specific)
+    #foreach($external_script in $external_scripts)
+        <script src="${external_script}"></script> #end
+## Scripts (Page Specific)
+    #foreach($script in $scripts)
+        <script src="${contextPath}/resources/scripts/${script}"></script> #end
+
+## Angular Modules, configuration and controllers
+    <script src="${contextPath}/resources/scripts/modules/config.js"></script>
+</head>
+<body ng-app="$ngApp" ng-controller="ChatterFoxController">
+    $screen_content
+
+## Pre-app initialization
+<script type="text/javascript">
+    angular.module("ChatterFox.config")
+            .constant("requestContext", "${contextPath}")
+        #if(${isUserAuthenticated})
+                .config(function (authenticationProvider) {
+                    authenticationProvider
+                            .setAuthenticatedUser({
+                                id: $!{authenticatedUser.id},
+                                firstname: "$!{authenticatedUser.firstName}",
+                                lastname: "$!{authenticatedUser.lastName}",
+                                email: "$!{authenticatedUser.username}",
+                                lastLogin: "$!{authenticatedUser.lastLoginDate.time}"
+                            })
+                    ;
+                })
+        #end
+    ;
+</script>
+
+    #foreach($controller in $angularControllers)
+    <script src="${contextPath}/resources/scripts/controllers/${controller}"></script>#end
+
+<script src="${contextPath}/resources/scripts/modules/filters.js"></script>
+<script src="${contextPath}/resources/scripts/modules/directives.js"></script>
+<script src="${contextPath}/resources/scripts/modules/events.js"></script>
+<script src="${contextPath}/resources/scripts/modules/services.js"></script>
+<script src="${contextPath}/resources/scripts/controllers/controllers.js"></script>
+<script src="${contextPath}/resources/scripts/application.js"></script>
+
+<div id="buildInformation">
+    $!{git.branch}:$!{git.commitIdAbbreviated} - $!{git.buildTime}
+</div>
+<!-- Build Information: $!{git.branch}:$!{git.commitIdAbbreviated} - $!{git.buildTime} by $!{git.commitUserEmail} -->
+<div class="clearfix"></div>
+</body>
+</html>

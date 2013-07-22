@@ -1,0 +1,228 @@
+@charset "utf-8";
+
+#buildInformation {
+    display: inline-block;
+    position: fixed;
+
+    right: 0;
+    bottom: 0;
+
+    color: #aaaaaa;
+    padding-right: 5px;
+    font-size: 0.6em;
+}
+
+body {
+    width: 700px;
+    margin: 0px auto;
+    padding: 0px;
+    background-color: #666;
+}
+
+#header {
+    float: left;
+    background-color: #000;
+    height: 100px;
+    width: 100%;
+    padding: 5px;
+}
+
+#logo {
+    float: left;
+    height: 100px;
+}
+
+#logo img {
+    float: left;
+    height: 100px;
+}
+
+#infoHeader {
+    float: left;
+    width: 150px;
+    color: #BBB;
+    font-size: 11px;
+    font-family: Verdana, Geneva, sans-serif;
+    font-style: italic;
+    padding: 1px;
+    margin-top: 10px;
+}
+
+#topNav {
+    width: 700px;
+    color: #DDD;
+    background-color: #111;
+    text-align: center;
+    padding: 5px;
+}
+
+#quickGameView {
+    width: 700px;
+    height: 100px;
+    background-color: #333;
+    padding: 5px;
+}
+
+/*********************************************************/
+/* Previous Game Table Styles                            */
+/*********************************************************/
+#previous {
+    float: left;
+}
+
+#previousGame {
+    width: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+    font-size: 10px;
+}
+
+#previousGame caption {
+    background-color: #555;
+    border: 1px solid black;
+}
+
+#previousGame th.side {
+
+}
+
+#previousGame table caption {
+    border: 1px solid black;
+}
+
+#previousGame th {
+    background-color: #555;
+    border: 1px solid black;
+    text-align: center;
+}
+
+#previousGame tr:nth-child(odd) td {
+    background-color: #888;
+    border: 1px solid black;
+}
+
+#previousGame tr:nth-child(even) td {
+    background-color: #AAA;
+    border: 1px solid black;
+}
+
+th.time, td.time {
+    width: auto;
+    text-align: center;
+}
+
+th.home, td.home {
+    width: 75px;
+}
+
+td.home {
+    text-align: right;
+}
+
+th.vs, td.vs {
+    width: auto;
+    text-align: center;
+}
+
+th.away, td.away {
+    width: 75px;
+}
+
+td.away {
+    text-align: left;
+}
+
+th.gameNo, td.gameNo {
+    width: auto;
+}
+
+td.win {
+    font-weight: bold;
+}
+
+/*********************************************************/
+/* Next Game Table Styles                                */
+/*********************************************************/
+#next {
+    float: right;
+}
+
+#nextGame {
+    width: auto;
+    border-collapse: collapse;
+    border: 1px solid black;
+    font-size: 10px;
+}
+
+#nextGame caption {
+    background-color: #555;
+    border: 1px solid black;
+}
+
+#nextGame th.side {
+
+}
+
+#nextGame th {
+    background-color: #555;
+    border: 1px solid black;
+    text-align: center;
+}
+
+#nextGame tr:nth-child(odd) td {
+    background-color: #888;
+    border: 1px solid black;
+}
+
+#nextGame tr:nth-child(even) td {
+    background-color: #AAA;
+    border: 1px solid black;
+}
+
+th.time, td.time {
+    width: auto;
+    text-align: center;
+}
+
+th.home, td.home {
+    width: 75px;
+}
+
+td.home {
+    text-align: right;
+}
+
+th.vs, td.vs {
+    width: auto;
+    text-align: center;
+}
+
+th.away, td.away {
+    width: 75px;
+}
+
+td.away {
+    text-align: left;
+}
+
+th.gameNo, td.gameNo {
+    width: auto;
+}
+
+/*********************************************************/
+/* News Styles                                           */
+/*********************************************************/
+
+#news {
+    width: 700px;
+    background-color: #333;
+    padding: 5px;
+}
+
+#newsTitle {
+    color: #FC3;
+}
+
+#newsTitle h4 {
+    margin: 3px;
+}
