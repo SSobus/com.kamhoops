@@ -9,9 +9,9 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class UsersService extends AbstractService<UsersRepository, Users> {
 
     @Autowired
@@ -28,7 +28,7 @@ public class UsersService extends AbstractService<UsersRepository, Users> {
             throw new EntityNotFoundException(Users.class, email);
         }
 
-        return usersRepository.findByEmail(email);
+        return user;
     }
 
     /**
@@ -80,7 +80,7 @@ public class UsersService extends AbstractService<UsersRepository, Users> {
         return repository;
     }
 
-    @Override
+    @Autowired
     public void setRepository(UsersRepository repository) {
         this.repository = repository;
     }

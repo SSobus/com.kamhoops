@@ -3,13 +3,18 @@ package com.kamhoops.services;
 
 import com.kamhoops.configuration.ApplicationConfig;
 import com.kamhoops.configuration.PersistenceJpaConfig;
+import com.kamhoops.data.domain.Season;
+import com.kamhoops.exceptions.EntityValidationException;
 import org.apache.commons.lang.math.RandomUtils;
+import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class DataGenerationService {
@@ -20,6 +25,9 @@ public class DataGenerationService {
 
     @Autowired
     private PersistenceJpaConfig persistenceJpaConfig;
+
+    @Autowired
+    private SeasonService seasonService;
 
     private String[] firstNames = new String[]{
             "Jaymes", "Derek", "Matt", "Mark", "Tom", "Harry", "Sally", "Sandra", "Paul", "Anastasia", "David", "Alex", "Michael", "Tina", "Zachary", "Bob", "Elise", "Michael",
@@ -85,6 +93,8 @@ public class DataGenerationService {
             "Tom", "Patterson", "Graham", "Freeman", "Lakes"
     };
 
+    List<Season> seasonsTestData = new ArrayList<>();
+
     private String getRandomFirstName() {
         return firstNames[RandomUtils.nextInt(firstNames.length)];
     }
@@ -94,14 +104,38 @@ public class DataGenerationService {
     }
 
     public void deleteAll() {
-/*        networkService.getRepository().deleteAll();
+        seasonService.getRepository().deleteAll();
+    }
 
-        userAccountService.getRepository().deleteAll();*/
+    public void generateSeasons() throws EntityValidationException {
+        List<Season> seasons = new ArrayList<>();
+
+        Season season = new Season();
+        season.setStartDate(new LocalDate(2011, 9, 1).toDate());
+        season.setEndDate(new LocalDate(2012, 3, 31).toDate());
+
+        seasons.add(season);
+
+        season = new Season();
+        season.setStartDate(new LocalDate(2012, 9, 1).toDate());
+        season.setEndDate(new LocalDate(2013, 3, 31).toDate());
+
+        seasons.add(season);
+
+        seasonsTestData = seasonService.getRepository().save(seasons);
+    }
+
+    public Season getRandomSeason() throws EntityValidationException {
+        if (seasonService.getRepository().count() == 0) {
+            generateSeasons();
+        }
+
+        return seasonsTestData.get(RandomUtils.nextInt(seasonsTestData.size()));
     }
 
 
     @PostConstruct
-    public void postConstruct() {
+    public void postConstruct() throws EntityValidationException {
 
         if (!(applicationConfig.isTestDataGenerationRequired() && persistenceJpaConfig.getDatabaseType() == PersistenceJpaConfig.DatabaseType.H2)) {
             return;
@@ -109,9 +143,7 @@ public class DataGenerationService {
 
         logger.info("Test Data Generation Requested");
 
-/*        generateTestNetworks();
-        generateTestCrmUsers();
-        generateTestAccounts();*/
+        generateSeasons();
 
         logger.info("Test Data Generation done");
     }
