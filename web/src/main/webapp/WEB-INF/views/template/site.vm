@@ -15,9 +15,9 @@
 
     <link rel="stylesheet" href="${contextPath}/resources/styles/jquery-ui-1.10.3.custom.css"/>
 
-    <script src="${contextPath}/resources/scripts/lib/jquery-1.9.1.js"></script>
-    <script src="${contextPath}/resources/scripts/lib/jquery-ui-1.10.3.custom.min.js"></script>
-    <script src="${contextPath}/resources/scripts/lib/jquery-ui-1.10.3.custom.js"></script>
+#*<script src="${contextPath}/resources/scripts/lib/jquery-1.9.1.js"></script>
+<script src="${contextPath}/resources/scripts/lib/jquery-ui-1.10.3.custom.min.js"></script>
+<script src="${contextPath}/resources/scripts/lib/jquery-ui-1.10.3.custom.js"></script>*#
 
     <script src="${contextPath}/resources/scripts/lib/angular-1.0.7.js"></script>
     <script src="${contextPath}/resources/scripts/lib/angular-ui-0.2.js"></script>
@@ -39,12 +39,12 @@
 ## Angular Modules, configuration and controllers
     <script src="${contextPath}/resources/scripts/modules/config.js"></script>
 </head>
-<body ng-app="$ngApp" ng-controller="ChatterFoxController">
+<body ng-app="$ngApp" ng-controller="KamhoopsController">
     $screen_content
 
 ## Pre-app initialization
 <script type="text/javascript">
-    angular.module("ChatterFox.config")
+    angular.module("Kamhoops.config")
             .constant("requestContext", "${contextPath}")
         #if(${isUserAuthenticated})
                 .config(function (authenticationProvider) {

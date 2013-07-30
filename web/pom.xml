@@ -279,7 +279,7 @@
 
         <plugins>
             <!-- Provide git commit information -->
-            <!--<plugin>
+            <plugin>
                 <groupId>pl.project13.maven</groupId>
                 <artifactId>git-commit-id-plugin</artifactId>
                 <version>2.1.4</version>
@@ -297,23 +297,24 @@
                     <verbose>true</verbose>
                     <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
 
-                    &lt;!&ndash; ALTERNATE SETUP - GENERATE FILE &ndash;&gt;
-                    &lt;!&ndash;
+                    <!-- ALTERNATE SETUP - GENERATE FILE -->
+                    <!--
                         If you want to keep git information, even in your WAR file etc,
                         use this mode, which will generate a properties file (with filled out values)
                         which you can then normally read using new Properties().load(/**/)
-                    &ndash;&gt;
+                    -->
 
                     <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>src/main/resources/common/git.properties</generateGitPropertiesFilename>
+                    <generateGitPropertiesFilename>src/main/resources/common/git.properties
+                    </generateGitPropertiesFilename>
                     <failOnNoGitDirectory>true</failOnNoGitDirectory>
 
-                    &lt;!&ndash; @since 2.1.0 &ndash;&gt;
-                    &lt;!&ndash;
+                    <!-- @since 2.1.0 -->
+                    <!--
                         read up about git-describe on the in man, or it's homepage - it's a really powerful versioning helper
                         and the recommended way to use git-commit-id-plugin. The configuration bellow is optional,
                         by default describe will run "just like git-describe on the command line", even though it's a JGit reimplementation.
-                    &ndash;&gt;
+                    -->
                     <gitDescribe>
                         <skip>false</skip>
                         <always>false</always>
@@ -322,7 +323,7 @@
                         <forceLongFormat>true</forceLongFormat>
                     </gitDescribe>
                 </configuration>
-            </plugin>-->
+            </plugin>
 
             <!-- Configure Test Runner for Maven -->
             <plugin>
