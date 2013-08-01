@@ -1,8 +1,8 @@
 package com.kamhoops.security;
 
-import com.kamhoops.data.domain.Users;
+import com.kamhoops.data.domain.UserAccount;
 import com.kamhoops.data.exceptions.EntityNotFoundException;
-import com.kamhoops.services.UsersService;
+import com.kamhoops.services.UserAccountService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,18 +14,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
  */
 public class KamhoopsUserDetailsService implements UserDetailsService {
 
-    private UsersService usersService;
+    private UserAccountService userAccountService;
 
-    public KamhoopsUserDetailsService(UsersService usersService) {
-        this.usersService = usersService;
+    public KamhoopsUserDetailsService(UserAccountService userAccountService) {
+        this.userAccountService = userAccountService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Users userAccount = null;
+        UserAccount userAccount = null;
 
         try {
-            userAccount = usersService.findByEmail(email);
+            userAccount = userAccountService.findByEmail(email);
         } catch (EntityNotFoundException e) {
             throw new UsernameNotFoundException("Email '" + email + "' not found");
         }

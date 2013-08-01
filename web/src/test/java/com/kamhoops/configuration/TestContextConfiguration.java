@@ -24,6 +24,7 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @Import({
         ApplicationConfig.class,
         PersistenceJpaConfig.class,
+        SecurityConfig.class,
         PropertiesConfig.class,
         EntityValidator.class
 })

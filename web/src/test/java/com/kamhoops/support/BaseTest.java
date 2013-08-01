@@ -1,11 +1,17 @@
 package com.kamhoops.support;
 
 import com.kamhoops.configuration.TestContextConfiguration;
+import com.kamhoops.data.domain.UserAccount;
 import com.kamhoops.exception.PrivateMethodInvocationException;
 import com.kamhoops.exception.TestingValidationError;
+import com.kamhoops.exceptions.EntityValidationException;
+import com.kamhoops.security.SecurityUserAccount;
 import com.kamhoops.services.DataGenerationService;
+import com.kamhoops.services.UserAccountService;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
@@ -27,10 +33,21 @@ import java.lang.reflect.Method;
 public abstract class BaseTest {
 
     @Autowired
+    UserAccountService userAccountService;
+
+    protected UserAccount authenticatedUser;
+
+    @Autowired
     protected DataGenerationService dataGenerator;
 
     @Autowired
     private EntityValidator validator;
+
+    @After
+    public void clearAuthenticatedUser() {
+        authenticatedUser = null;
+        SecurityContextHolder.clearContext();
+    }
 
     public void removeAuthentication() {
         SecurityContextHolder.clearContext();
@@ -42,6 +59,24 @@ public abstract class BaseTest {
         if (results.hasErrors()) {
             throw new TestingValidationError(results.getAllErrors());
         }
+    }
+
+    public void setAuthenticatedUserAsAdminUser() throws EntityValidationException {
+        this.authenticatedUser = dataGenerator.getRandomAdminUser();
+        userAccountService.createUserAccount(authenticatedUser);
+
+        SecurityUserAccount securityUserAccount = new SecurityUserAccount(authenticatedUser);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUserAccount, authenticatedUser.getPassword(), securityUserAccount.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+    }
+
+    public void setAuthenticatedUserAsCaptainUser() throws EntityValidationException {
+        this.authenticatedUser = dataGenerator.getRandomCaptainUser();
+        userAccountService.createUserAccount(authenticatedUser);
+
+        SecurityUserAccount securityUserAccount = new SecurityUserAccount(authenticatedUser);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUserAccount, authenticatedUser.getPassword(), securityUserAccount.getAuthorities());
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
     /**

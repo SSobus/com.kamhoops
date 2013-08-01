@@ -48,7 +48,7 @@ public class SeasonServiceTests extends BaseTest {
     }
 
     @Test
-    public void shouldCreateASeason() throws EntityValidationException, TestingValidationError {
+    public void shouldSaveASeason() throws EntityValidationException, TestingValidationError {
         Season season = new Season();
 
         season.setStartDate(new LocalDate(2012, 9, 1).toDate());

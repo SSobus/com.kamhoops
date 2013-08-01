@@ -1792,7 +1792,7 @@ angular.module('ui.bootstrap.tabs', [])
 angular.module('ui.bootstrap.typeahead', ['ui.bootstrap.position'])
 
 /**
- * A helper service that can parse typeahead's syntax (string provided by Users)
+ * A helper service that can parse typeahead's syntax (string provided by UserAccount)
  * Extracted to a separate service for ease of unit testing
  */
     .factory('typeaheadParser', ['$parse', function ($parse) {

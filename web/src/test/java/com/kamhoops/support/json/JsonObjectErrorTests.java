@@ -1,6 +1,6 @@
 package com.kamhoops.support.json;
 
-import com.kamhoops.data.domain.Users;
+import com.kamhoops.data.domain.UserAccount;
 import com.kamhoops.data.domain.base.AbstractEntity;
 import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.exception.TestingValidationError;
@@ -32,7 +32,7 @@ public class JsonObjectErrorTests extends BaseTest {
 
     @Test
     public void shouldBuildAJsonObjectErrorFromADuplicateEntityException() {
-        Users user = new Users();
+        UserAccount user = new UserAccount();
         user.setId(1L);
 
         DuplicateEntityException duplicateEntityException = new DuplicateEntityException(user, "user", "id");
@@ -48,9 +48,10 @@ public class JsonObjectErrorTests extends BaseTest {
     public void shouldBuildAJsonObjectErrorFromAEntityValidationError() {
         List<ObjectError> validationErrors = null;
 
-        Users user = new Users();
+        UserAccount user = new UserAccount();
         user.setId(1L);
         user.setPassword("1234");
+        user.setUsername("username");
 
         try {
             validateEntity(user);
@@ -67,7 +68,7 @@ public class JsonObjectErrorTests extends BaseTest {
         JsonObjectError jsonObjectError1 = jsonObjectError.get(0);
 
         assertThat(jsonObjectError1.getId()).isNull();
-        assertThat(jsonObjectError1.getObjectName()).isEqualTo("users");
+        assertThat(jsonObjectError1.getObjectName()).isEqualTo("useraccount");
         assertThat(jsonObjectError1.getFieldName()).isEqualTo("email");
         assertThat(jsonObjectError1.getErrorType()).isEqualTo(JsonObjectError.ErrorType.VALIDATION);
         assertThat(jsonObjectError1.getErrorMessage()).isNotNull();

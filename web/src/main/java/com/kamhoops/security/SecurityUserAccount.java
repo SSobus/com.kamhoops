@@ -1,6 +1,6 @@
 package com.kamhoops.security;
 
-import com.kamhoops.data.domain.Users;
+import com.kamhoops.data.domain.UserAccount;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,10 +16,10 @@ import java.util.List;
  */
 public class SecurityUserAccount implements UserDetails {
 
-    private Users userAccount;
+    private UserAccount userAccount;
     private List<GrantedAuthority> grantedAuthorities;
 
-    public SecurityUserAccount(Users userAccount) {
+    public SecurityUserAccount(UserAccount userAccount) {
         assert (userAccount != null);
 
         this.userAccount = userAccount;
@@ -71,7 +71,7 @@ public class SecurityUserAccount implements UserDetails {
         this.grantedAuthorities.add(new SimpleGrantedAuthority(role));
     }
 
-    public Users getUserAccount() {
+    public UserAccount getUserAccount() {
         return userAccount;
     }
 

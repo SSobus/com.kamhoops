@@ -2,7 +2,7 @@ package com.kamhoops.configuration;
 
 import com.kamhoops.security.KamhoopsAuthenticationManager;
 import com.kamhoops.security.KamhoopsUserDetailsService;
-import com.kamhoops.services.UsersService;
+import com.kamhoops.services.UserAccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +25,7 @@ import java.util.List;
 public class SecurityConfig {
 
     @Autowired
-    private UsersService usersService;
+    private UserAccountService userAccountService;
 
     @Bean
     public PasswordEncoder getPasswordEncoder() {
@@ -66,7 +66,7 @@ public class SecurityConfig {
 
     @Bean
     public KamhoopsUserDetailsService getKamhoopsUserDetailsService() {
-        return new KamhoopsUserDetailsService(usersService);
+        return new KamhoopsUserDetailsService(userAccountService);
     }
 
     @Bean(name = "failureHandler")

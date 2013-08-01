@@ -11635,7 +11635,7 @@
             this.element
                 .addClass("ui-tabs ui-widget ui-widget-content ui-corner-all")
                 .toggleClass("ui-tabs-collapsible", options.collapsible)
-                // Prevent Users from focusing disabled tabs via click
+                // Prevent UserAccount from focusing disabled tabs via click
                 .delegate(".ui-tabs-nav > li", "mousedown" + this.eventNamespace, function (event) {
                     if ($(this).is(".ui-state-disabled")) {
                         event.preventDefault();
@@ -12247,7 +12247,7 @@
         },
 
         _getIndex: function (index) {
-            // meta-function to give Users option to provide a href string instead of a numerical index.
+            // meta-function to give UserAccount option to provide a href string instead of a numerical index.
             if (typeof index === "string") {
                 index = this.anchors.index(this.anchors.filter("[href$='" + index + "']"));
             }

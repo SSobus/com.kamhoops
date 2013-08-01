@@ -2,7 +2,7 @@ package com.kamhoops.listeners;
 
 import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.security.SecurityUserAccount;
-import com.kamhoops.services.UsersService;
+import com.kamhoops.services.UserAccountService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import java.util.Date;
 public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
 
     @Autowired
-    private UsersService userAccountService;
+    private UserAccountService userAccountService;
 
     private static final Logger logger = LoggerFactory.getLogger(AuthenticationSuccessEventListener.class);
 
