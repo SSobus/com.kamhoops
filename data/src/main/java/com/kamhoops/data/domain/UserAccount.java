@@ -4,13 +4,12 @@ import com.kamhoops.data.domain.base.AbstractEntity;
 import com.kamhoops.data.domain.enums.UserRole;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,16 +20,16 @@ public class UserAccount extends AbstractEntity {
 
     @Column(unique = true)
     @Index(name = "username")
-    @NotNull
+    @NotBlank
     private String username;
 
     @Column(unique = true)
     @Index(name = "email")
-    @NotEmpty
+    @NotBlank
     @Email
     private String email;
 
-    @NotEmpty
+    @NotBlank
     @Size(max = 60)
     private String password;
 
