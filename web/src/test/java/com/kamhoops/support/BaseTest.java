@@ -63,7 +63,7 @@ public abstract class BaseTest {
 
     public void setAuthenticatedUserAsAdminUser() throws EntityValidationException {
         this.authenticatedUser = dataGenerator.getRandomAdminUser();
-        userAccountService.createUserAccount(authenticatedUser);
+        userAccountService.create(authenticatedUser);
 
         SecurityUserAccount securityUserAccount = new SecurityUserAccount(authenticatedUser);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUserAccount, authenticatedUser.getPassword(), securityUserAccount.getAuthorities());
@@ -72,7 +72,7 @@ public abstract class BaseTest {
 
     public void setAuthenticatedUserAsCaptainUser() throws EntityValidationException {
         this.authenticatedUser = dataGenerator.getRandomCaptainUser();
-        userAccountService.createUserAccount(authenticatedUser);
+        userAccountService.create(authenticatedUser);
 
         SecurityUserAccount securityUserAccount = new SecurityUserAccount(authenticatedUser);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(securityUserAccount, authenticatedUser.getPassword(), securityUserAccount.getAuthorities());

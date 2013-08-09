@@ -85,6 +85,7 @@ public class DataGenerationService {
         seasonService.getRepository().deleteAll();
     }
 
+    //SEASON FUNCTIONS
     public void generateSeasons() throws EntityValidationException {
         List<Season> seasons = new ArrayList<>();
 
@@ -96,19 +97,33 @@ public class DataGenerationService {
         season = new Season();
         season.setStartDate(new LocalDate(2012, 9, 1).toDate());
         season.setEndDate(new LocalDate(2013, 3, 31).toDate());
+        season.setCurrentSeason(true);
         seasons.add(season);
 
         seasonsTestData = seasonService.getRepository().save(seasons);
     }
 
     public Season getRandomSeason() throws EntityValidationException {
-        if (seasonService.getRepository().count() == 0) {
+        if (seasonService.repository.count() == 0) {
             generateSeasons();
         }
 
         return seasonsTestData.get(RandomUtils.nextInt(seasonsTestData.size()));
     }
 
+    public Season getTestSeason() throws EntityValidationException {
+        Season season = new Season();
+        season.setStartDate(new LocalDate(2012, 1, 1).toDate());
+        season.setEndDate(new LocalDate(2012, 12, 31).toDate());
+
+        return season;
+    }
+
+    public Season createTestSeason() throws EntityValidationException {
+        return seasonService.create(getTestSeason());
+    }
+
+    //GAME TIME FUNCTIONS
     public void generateGameTimes() {
         List<GameTime> gameTimes = new ArrayList<>();
 
@@ -130,6 +145,18 @@ public class DataGenerationService {
         return gameTimeTestData.get(RandomUtils.nextInt(gameTimeTestData.size()));
     }
 
+    public GameTime getTestGameTime() {
+        GameTime gameTime = new GameTime();
+        gameTime.setTime("7:00");
+
+        return gameTime;
+    }
+
+    public GameTime createTestGameTime() throws EntityValidationException {
+        return gameTimeService.create(getTestGameTime());
+    }
+
+    //USER ACCOUNT FUNCTIONS
     public void setAdminUserDetails(UserAccount user) {
         user.setUsername(getRandomFirstName().toLowerCase() + getRandomLastName().toLowerCase());
         user.setEmail(getRandomEmail());
