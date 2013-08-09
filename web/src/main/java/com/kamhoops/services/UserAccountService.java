@@ -13,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 
@@ -22,7 +23,7 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserAccount createUserAccount(UserAccount userAccount) throws EntityValidationException {
+    public UserAccount create(UserAccount userAccount) throws EntityValidationException {
         preCreateUserAccountChecks(userAccount);
         encryptUserAccountPassword(userAccount);
 
@@ -34,9 +35,53 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
             throw new EntityValidationException(new FieldError("userAccount", "id", "Supplied account ID must be null"));
         }
 
-        validateEntity(userAccount);
         checkForDuplicateUserByUsername(userAccount.getUsername());
         checkForDuplicateUserByEmail(userAccount.getEmail());
+
+        validateEntity(userAccount);
+    }
+
+    private void encryptUserAccountPassword(UserAccount userAccount) {
+        userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+    }
+
+    public UserAccount update(UserAccount modifiedUserAccount) throws EntityNotFoundException, EntityValidationException {
+        preUpdateUserAccountChecksAndMerge(modifiedUserAccount);
+
+        return repository.save(modifiedUserAccount);
+    }
+
+    private void preUpdateUserAccountChecksAndMerge(UserAccount modifiedUserAccount) throws EntityValidationException, EntityNotFoundException {
+        Assert.notNull(modifiedUserAccount, "Cannot update null userAccount");
+
+        UserAccount existingUserAccount = findById(modifiedUserAccount.getId());
+
+        Assert.notNull(existingUserAccount.getId(), "Cannot find userAccount to update");
+
+        // User has changed their password? Need to re-encrypt
+        if (!StringUtils.isBlank(modifiedUserAccount.getPassword())) {
+            encryptUserAccountPassword(modifiedUserAccount);
+        } else {
+            modifiedUserAccount.setPassword(existingUserAccount.getPassword());
+        }
+
+        // User has requested a username change? Need to ensure the new username isn't taken.
+        String newUsername = modifiedUserAccount.getUsername();
+        if (!StringUtils.isBlank(newUsername) && !existingUserAccount.getUsername().equals(newUsername)) {
+            checkForDuplicateUserByUsername(newUsername);
+        } else {
+            modifiedUserAccount.setUsername(existingUserAccount.getUsername());
+        }
+
+        // User has requested a email change? Need to ensure the new username isn't taken.
+        String newEmail = modifiedUserAccount.getEmail();
+        if (!StringUtils.isBlank(newEmail) && !existingUserAccount.getEmail().equals(newEmail)) {
+            checkForDuplicateUserByEmail(newEmail);
+        } else {
+            modifiedUserAccount.setEmail(existingUserAccount.getEmail());
+        }
+
+        validateEntity(modifiedUserAccount);
     }
 
     private void checkForDuplicateUserByUsername(String username) throws EntityValidationException {
@@ -61,58 +106,6 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
         if (userAccount != null) {
             throw new DuplicateEntityException(userAccount, "userAccount", "email");
         }
-    }
-
-    private void encryptUserAccountPassword(UserAccount userAccount) {
-        userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
-    }
-
-    public UserAccount updateUserAccount(UserAccount modifiedUserAccount) throws EntityNotFoundException, EntityValidationException {
-        UserAccount existingUserAccount = findById(modifiedUserAccount.getId());
-
-        if (existingUserAccount == null) {
-            throw new EntityValidationException(new FieldError("userAccount", "id", "Supplied account id is not a UserAccount"));
-        }
-
-        preUpdateUserAccountChecksAndMerge(existingUserAccount, modifiedUserAccount);
-
-        return repository.save(existingUserAccount);
-    }
-
-    private void preUpdateUserAccountChecksAndMerge(UserAccount existingUserAccount, UserAccount modifiedUserAccount) throws EntityValidationException {
-        assert (modifiedUserAccount.getId() != null);
-
-        // User has changed their password? Need to re-encrypt
-        if (!StringUtils.isBlank(modifiedUserAccount.getPassword())) {
-            encryptUserAccountPassword(modifiedUserAccount);
-            existingUserAccount.setPassword(modifiedUserAccount.getPassword());
-        } else {
-            // Purely for validation simplicity
-            modifiedUserAccount.setPassword(existingUserAccount.getPassword());
-        }
-
-        // User has requested a username change? Need to ensure the new username isn't taken.
-        String newUsername = modifiedUserAccount.getUsername();
-        if (!StringUtils.isBlank(newUsername) && !existingUserAccount.getUsername().equals(newUsername)) {
-            checkForDuplicateUserByUsername(newUsername);
-            existingUserAccount.setUsername(modifiedUserAccount.getUsername());
-        } else {
-            modifiedUserAccount.setUsername(existingUserAccount.getUsername());
-        }
-
-        // User has requested a username change? Need to ensure the new username isn't taken.
-        String newEmail = modifiedUserAccount.getEmail();
-        if (!StringUtils.isBlank(newEmail) && !existingUserAccount.getEmail().equals(newEmail)) {
-            checkForDuplicateUserByEmail(newEmail);
-            existingUserAccount.setEmail(modifiedUserAccount.getEmail());
-        } else {
-            modifiedUserAccount.setEmail(existingUserAccount.getEmail());
-        }
-
-        validateEntity(modifiedUserAccount);
-
-        existingUserAccount.setEmail(modifiedUserAccount.getEmail());
-        existingUserAccount.setUsername(modifiedUserAccount.getUsername());
     }
 
     public UserAccount findByUsername(String username) throws EntityNotFoundException {

@@ -11,8 +11,6 @@ import com.kamhoops.support.BaseTest;
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Date;
@@ -27,8 +25,6 @@ public class UserAccountServiceTests extends BaseTest {
     private UserAccountService userAccountService;
 
     private UserAccountRepository userAccountRepository;
-
-    private static Logger logger = LoggerFactory.getLogger(UserAccountServiceTests.class);
 
     @Before
     public void setup() {
@@ -48,7 +44,7 @@ public class UserAccountServiceTests extends BaseTest {
 
     @Test
     public void shouldFindAdminUserByItsIDIfItsNotDeleted() throws EntityValidationException, EntityNotFoundException {
-        UserAccount userAccount = userAccountService.createUserAccount(dataGenerator.getRandomAdminUser());
+        UserAccount userAccount = userAccountService.create(dataGenerator.getRandomAdminUser());
         UserAccount foundUserAccount;
 
         foundUserAccount = userAccountService.findById(userAccount.getId());
@@ -61,7 +57,7 @@ public class UserAccountServiceTests extends BaseTest {
     public void shouldCreateAUserAccount() throws EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
 
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         assertThat(userAccountRepository.findAll().size()).isEqualTo(1);
         assertTrue(userAccount.getId() != null);
     }
@@ -89,10 +85,10 @@ public class UserAccountServiceTests extends BaseTest {
     @Test
     public void shouldFindAUserAccountByItsUsername() throws EntityNotFoundException, EntityValidationException {
         UserAccount adminUserAccount = dataGenerator.getRandomAdminUser();
-        adminUserAccount = userAccountService.createUserAccount(adminUserAccount);
+        adminUserAccount = userAccountService.create(adminUserAccount);
 
         UserAccount captainUserAccount = dataGenerator.getRandomCaptainUser();
-        captainUserAccount = userAccountService.createUserAccount(captainUserAccount);
+        captainUserAccount = userAccountService.create(captainUserAccount);
 
         UserAccount userAccount = userAccountService.findByUsername(adminUserAccount.getUsername());
         assertThat(userAccount.getId()).isEqualTo(adminUserAccount.getId());
@@ -104,10 +100,10 @@ public class UserAccountServiceTests extends BaseTest {
     @Test
     public void shouldFindAUserAccountByItsEmail() throws EntityNotFoundException, EntityValidationException {
         UserAccount adminUserAccount = dataGenerator.getRandomAdminUser();
-        adminUserAccount = userAccountService.createUserAccount(adminUserAccount);
+        adminUserAccount = userAccountService.create(adminUserAccount);
 
         UserAccount captainUserAccount = dataGenerator.getRandomCaptainUser();
-        captainUserAccount = userAccountService.createUserAccount(captainUserAccount);
+        captainUserAccount = userAccountService.create(captainUserAccount);
 
         UserAccount userAccount = userAccountService.findByEmail(adminUserAccount.getEmail());
         assertThat(userAccount.getId()).isEqualTo(adminUserAccount.getId());
@@ -118,9 +114,9 @@ public class UserAccountServiceTests extends BaseTest {
 
     @Test
     public void shouldFindAllUsers() throws EntityValidationException {
-        userAccountService.createUserAccount(dataGenerator.getRandomAdminUser());
-        userAccountService.createUserAccount(dataGenerator.getRandomCaptainUser());
-        userAccountService.createUserAccount(dataGenerator.getRandomCaptainUser());
+        userAccountService.create(dataGenerator.getRandomAdminUser());
+        userAccountService.create(dataGenerator.getRandomCaptainUser());
+        userAccountService.create(dataGenerator.getRandomCaptainUser());
 
         List<UserAccount> userAccounts = userAccountService.findAll();
 
@@ -132,49 +128,49 @@ public class UserAccountServiceTests extends BaseTest {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
         userAccount.setId(5L);
 
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
     }
 
     @Test(expected = DuplicateEntityException.class)
-    public void shouldNotCreateADuplicateAccountWhenTheUsernameAlreadyExists() throws EntityValidationException, DuplicateEntityException {
+    public void shouldNotCreateADuplicateAccountWhenTheUsernameAlreadyExists() throws EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
 
         userAccount.setId(null);
         userAccount.setEmail(dataGenerator.getRandomEmail());
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
     }
 
     @Test(expected = DuplicateEntityException.class)
-    public void shouldNotCreateADuplicateAccountWhenTheEmailAlreadyExists() throws EntityValidationException, DuplicateEntityException {
+    public void shouldNotCreateADuplicateAccountWhenTheEmailAlreadyExists() throws EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
 
         userAccount.setId(null);
         userAccount.setUsername(RandomStringUtils.randomAlphabetic(5));
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldNotCreateAnAccountWithABlankUsername() throws EntityValidationException, DuplicateEntityException {
+    public void shouldNotCreateAnAccountWithABlankUsername() throws EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
 
         userAccount.setUsername("   ");
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldNotCreateAnAccountWithABlankEmail() throws EntityValidationException, DuplicateEntityException {
+    public void shouldNotCreateAnAccountWithABlankEmail() throws EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
 
         userAccount.setEmail("   ");
-        userAccountService.createUserAccount(userAccount);
+        userAccountService.create(userAccount);
     }
 
     @Test
     public void shouldUpdateAUserAccountLastLoginDate() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         assertThat(userAccount.getLastLoginDate()).isEqualTo(null);
 
         userAccount = userAccountService.updateLastLoginById(userAccount.getId());
@@ -184,7 +180,7 @@ public class UserAccountServiceTests extends BaseTest {
     @Test(expected = EntityValidationException.class)
     public void nonAuthenticatedUsersCannotDeleteUserAccounts() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         assertThat(userAccount.isDeleted()).isFalse();
 
         userAccountService.deleteById(userAccount.getId());
@@ -195,7 +191,7 @@ public class UserAccountServiceTests extends BaseTest {
     public void shouldDeleteAUserAccountByItsId() throws EntityValidationException, EntityNotFoundException {
         setAuthenticatedUserAsAdminUser();
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         assertThat(userAccount.isDeleted()).isFalse();
 
         userAccount = userAccountService.deleteById(userAccount.getId());
@@ -205,31 +201,38 @@ public class UserAccountServiceTests extends BaseTest {
     @Test
     public void shouldToggleTheActiveStatusOfAUserByItsId() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         assertThat(userAccount.isActive()).isTrue();
 
         userAccount = userAccountService.toggleActiveById(userAccount.getId());
         assertThat(userAccount.isActive()).isFalse();
     }
 
+    @Test(expected = IllegalArgumentException.class)
+    public void attemptingToUpdateAUserThatIsNullShouldThrowException() throws EntityNotFoundException, EntityValidationException {
+        UserAccount userAccount = null;
+
+        userAccountService.update(userAccount);
+    }
+
     @Test(expected = EntityNotFoundException.class)
-    public void attemptingToUpdateAUserThatDoesntExistShouldThrowException() throws EntityNotFoundException, EntityValidationException {
+    public void attemptingToUpdateAUserThatDoesNotExistShouldThrowException() throws EntityNotFoundException, EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         userAccount.setId(0L);
 
-        userAccountService.updateUserAccount(userAccount);
+        userAccountService.update(userAccount);
     }
 
     @Test
     public void shouldUpdateAUsersPasswordIfTheySupplyANonNullPassword() throws EntityValidationException, EntityNotFoundException {
         String password;
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         password = userAccount.getPassword();
 
         userAccount.setPassword("9876");
-        userAccount = userAccountService.updateUserAccount(userAccount);
+        userAccount = userAccountService.update(userAccount);
 
         assertThat(userAccount.getPassword()).isNotEqualTo(password);
     }
@@ -238,12 +241,12 @@ public class UserAccountServiceTests extends BaseTest {
     public void shouldUpdateAUsersUsernameIfTheyChangeTheirUsername() throws EntityValidationException, EntityNotFoundException {
         String username;
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         username = userAccount.getUsername();
         userAccount.setPassword(null);
 
         userAccount.setUsername("new");
-        userAccount = userAccountService.updateUserAccount(userAccount);
+        userAccount = userAccountService.update(userAccount);
 
         assertThat(userAccount.getUsername()).isNotEqualTo(username);
     }
@@ -252,12 +255,12 @@ public class UserAccountServiceTests extends BaseTest {
     public void shouldUpdateAUsersEmailIfTheyChangeTheirEmail() throws EntityValidationException, EntityNotFoundException {
         String email;
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
         email = userAccount.getUsername();
         userAccount.setPassword(null);
 
         userAccount.setUsername("new@kamhoops.com");
-        userAccount = userAccountService.updateUserAccount(userAccount);
+        userAccount = userAccountService.update(userAccount);
 
         assertThat(userAccount.getUsername()).isNotEqualTo(email);
     }
@@ -265,7 +268,7 @@ public class UserAccountServiceTests extends BaseTest {
     @Test
     public void shouldUpdateAUserAccount() throws EntityNotFoundException, EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
-        userAccount = userAccountService.createUserAccount(userAccount);
+        userAccount = userAccountService.create(userAccount);
 
         String username = userAccount.getUsername(), email = userAccount.getEmail();
         Date modifiedDate = userAccount.getLastModifiedDate();
@@ -273,7 +276,7 @@ public class UserAccountServiceTests extends BaseTest {
         userAccount.setPassword(null);
         userAccount.setUsername("New Username");
         userAccount.setEmail("New@Email.com");
-        userAccount = userAccountService.updateUserAccount(userAccount);
+        userAccount = userAccountService.update(userAccount);
 
         assertThat(userAccount.getUsername()).isNotEqualTo(username);
         assertThat(userAccount.getEmail()).isNotEqualTo(email);

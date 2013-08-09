@@ -182,7 +182,7 @@ public class SeasonServiceTests extends BaseTest {
         season.setCurrentSeason(true);
         seasonService.create(season);
 
-        season = seasonService.findCurrent();
+        seasonService.findCurrent();
     }
 
     @Test
