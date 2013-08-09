@@ -2,14 +2,14 @@
   <artifact type="exploded-war" name="web:war exploded">
     <output-path>$PROJECT_DIR$/web/target/web-1.0.0</output-path>
     <root id="root">
-      <element id="javaee-facet-resources" facet="web/web/Web" />
+      <element id="javaee-facet-resources" facet="com.kamhoops (App)/web/Web" />
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
-          <element id="module-output" name="web" />
+          <element id="module-output" name="com.kamhoops (App)" />
         </element>
         <element id="directory" name="lib">
           <element id="archive" name="data-1.0.0.jar">
-            <element id="module-output" name="data" />
+            <element id="module-output" name="com.kamhoops (Data)" />
           </element>
           <element id="library" level="project" name="Maven: org.springframework.data:spring-data-commons-core:1.4.0.RELEASE" />
           <element id="library" level="project" name="Maven: org.springframework:spring-core:3.2.0.RELEASE" />
