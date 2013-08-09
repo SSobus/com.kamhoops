@@ -2,6 +2,8 @@ package com.kamhoops.data.domain;
 
 import com.kamhoops.data.domain.base.AbstractEntity;
 import com.kamhoops.data.domain.enums.UserRole;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
@@ -55,10 +57,12 @@ public class UserAccount extends AbstractEntity {
         this.email = email;
     }
 
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
 
+    @JsonProperty
     public void setPassword(String password) {
         this.password = password;
     }
