@@ -15,14 +15,14 @@ import java.util.List;
  * <p/>
  * Base class for all services to encapsulate common functionality
  */
-public abstract class AbstractService<T extends BaseJpaRepository<E>, E extends AbstractEntity> {
+public abstract class AbstractService<REPO extends BaseJpaRepository<ENTITY>, ENTITY extends AbstractEntity> {
 
     @Autowired
     private EntityValidator validator;
 
-    protected T repository;
+    protected REPO repository;
 
-    public List<E> findAll() {
+    public List<ENTITY> findAll() {
         return repository.findAll();
     }
 
@@ -34,20 +34,20 @@ public abstract class AbstractService<T extends BaseJpaRepository<E>, E extends 
         }
     }
 
-    public List<E> findAllActive() {
+    public List<ENTITY> findAllActive() {
         return repository.findByActiveTrue();
     }
 
-    public List<E> findAllAvailable() {
+    public List<ENTITY> findAllAvailable() {
         return repository.findByDeletedFalse();
     }
 
-    public E findById(Long id) throws EntityNotFoundException {
+    public ENTITY findById(Long id) throws EntityNotFoundException {
         if (id == null) {
             throw new EntityNotFoundException(getEntityTypeClass(), id);
         }
 
-        E entity = repository.findByDeletedFalseAndId(id);
+        ENTITY entity = repository.findByDeletedFalseAndId(id);
 
         if (entity == null) {
             throw new EntityNotFoundException(getEntityTypeClass(), id);
@@ -56,30 +56,30 @@ public abstract class AbstractService<T extends BaseJpaRepository<E>, E extends 
         return entity;
     }
 
-    public E toggleActiveById(Long id) throws EntityNotFoundException {
-        E entity = findById(id);
+    public ENTITY toggleActiveById(Long id) throws EntityNotFoundException {
+        ENTITY entity = findById(id);
         entity.setActive(!entity.isActive());
 
         return repository.save(entity);
     }
 
-    public E deactivateById(Long id) throws EntityNotFoundException {
-        E entity = findById(id);
+    public ENTITY deactivateById(Long id) throws EntityNotFoundException {
+        ENTITY entity = findById(id);
         entity.setActive(false);
 
         return repository.save(entity);
     }
 
-    public E deleteById(Long id) throws EntityNotFoundException, EntityValidationException {
-        E entity = findById(id);
+    public ENTITY deleteById(Long id) throws EntityNotFoundException, EntityValidationException {
+        ENTITY entity = findById(id);
         entity.setDeleted(true);
 
         return repository.save(entity);
     }
 
-    public abstract T getRepository();
+    public abstract REPO getRepository();
 
-    public abstract void setRepository(T repository);
+    public abstract void setRepository(REPO repository);
 
-    public abstract Class<E> getEntityTypeClass();
+    public abstract Class<ENTITY> getEntityTypeClass();
 }
