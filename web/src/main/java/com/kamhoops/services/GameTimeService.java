@@ -14,13 +14,13 @@ public class GameTimeService extends AbstractService<GameTimeRepository, GameTim
     GameTimeRepository gameTimeRepository;
 
     /**
-     * Save a GameTime
+     * Create a GameTime
      *
-     * @param gameTime to save
-     * @return gameTime saved
+     * @param gameTime to create
+     * @return gameTime created
      * @throws EntityValidationException
      */
-    public GameTime save(GameTime gameTime) throws EntityValidationException {
+    public GameTime create(GameTime gameTime) throws EntityValidationException {
         validateEntity(gameTime);
 
         return gameTimeRepository.save(gameTime);

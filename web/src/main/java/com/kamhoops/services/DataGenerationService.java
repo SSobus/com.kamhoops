@@ -4,6 +4,7 @@ package com.kamhoops.services;
 import com.kamhoops.configuration.ApplicationConfig;
 import com.kamhoops.configuration.PersistenceJpaConfig;
 import com.kamhoops.data.domain.GameTime;
+import com.kamhoops.data.domain.News;
 import com.kamhoops.data.domain.Season;
 import com.kamhoops.data.domain.UserAccount;
 import com.kamhoops.data.domain.enums.UserRole;
@@ -39,6 +40,9 @@ public class DataGenerationService {
     @Autowired
     private UserAccountService userAccountService;
 
+    @Autowired
+    private NewsService newsService;
+
     private String[] firstNames = new String[]{
             "Jaymes", "Derek", "Matt", "Mark", "Tom", "Harry", "Sally", "Sandra", "Paul", "Anastasia", "David", "Alex", "Michael", "Tina", "Zachary", "Bob", "Elise", "Michael",
             "Quincy", "Rob", "Odell", "Winford", "Mauro", "Brooks", "Ricardo", "Theo", "Dorian", "Oscar", "Mark", "Randy", "Al", "Nathan", "Homer", "Sebastian", "Preston", "Harlan",
@@ -66,6 +70,7 @@ public class DataGenerationService {
 
     List<Season> seasonsTestData = new ArrayList<>();
     List<GameTime> gameTimeTestData = new ArrayList<>();
+    List<News> newsTestData = new ArrayList<>();
 
     private String getRandomFirstName() {
         return firstNames[RandomUtils.nextInt(firstNames.length)];
@@ -83,6 +88,8 @@ public class DataGenerationService {
         userAccountService.getRepository().deleteAll();
         gameTimeService.getRepository().deleteAll();
         seasonService.getRepository().deleteAll();
+
+        newsService.getRepository().deleteAll();
     }
 
     //SEASON FUNCTIONS
@@ -185,6 +192,43 @@ public class DataGenerationService {
         setCaptainUserDetails(user);
 
         return user;
+    }
+
+    public void generateRandomNews(int count) {
+        News news;
+        List<News> newsList = new ArrayList<>();
+
+        for (int i = 0; i < count; i++) {
+            news = new News();
+
+            news.setTitle(RandomStringUtils.randomAlphabetic(15));
+            news.setContent(RandomStringUtils.randomAlphanumeric(200));
+
+            newsList.add(news);
+        }
+
+        newsTestData = newsService.getRepository().save(newsList);
+    }
+
+    public News getRandomNews() {
+        if (newsService.count() == 0) {
+            generateRandomNews(10);
+        }
+
+        return newsTestData.get(RandomUtils.nextInt(newsTestData.size()));
+    }
+
+    public News getTestNews() {
+        News news = new News();
+
+        news.setTitle(RandomStringUtils.randomAlphabetic(15));
+        news.setContent(RandomStringUtils.randomAlphanumeric(200));
+
+        return news;
+    }
+
+    public News createTestNews() throws EntityValidationException {
+        return newsService.create(getTestNews());
     }
 
 

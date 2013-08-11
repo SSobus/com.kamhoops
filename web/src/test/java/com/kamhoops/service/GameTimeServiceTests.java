@@ -33,7 +33,7 @@ public class GameTimeServiceTests extends BaseTest {
 
         validateEntity(gameTime);
 
-        gameTimeService.save(gameTime);
+        gameTimeService.create(gameTime);
     }
 
     @Test
