@@ -40,6 +40,9 @@
     <script src="${contextPath}/resources/scripts/modules/config.js"></script>
 </head>
 <body ng-app="$ngApp" ng-controller="KamhoopsController">
+    #parse("template/header.vm")
+    #parse("template/navigation.vm")
+
     $screen_content
 
 ## Pre-app initialization
@@ -72,10 +75,8 @@
 <script src="${contextPath}/resources/scripts/controllers/controllers.js"></script>
 <script src="${contextPath}/resources/scripts/application.js"></script>
 
-<div id="buildInformation">
-    $!{git.branch}:$!{git.commitIdAbbreviated} - $!{git.buildTime}
-</div>
-<!-- Build Information: $!{git.branch}:$!{git.commitIdAbbreviated} - $!{git.buildTime} by $!{git.commitUserEmail} -->
+    #parse("buildInformation.vm")
+
 <div class="clearfix"></div>
 </body>
 </html>

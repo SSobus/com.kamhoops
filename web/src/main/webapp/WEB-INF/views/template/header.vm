@@ -1,0 +1,14 @@
+<!-- Header -->
+<div id="header">
+    <div id="logo">
+        <img src="/resources/images/logo.png" alt="logo"/>
+    </div>
+    <div id="infoHeader">
+        <p>2012/2013 Season <br/>
+            -8 Teams<br/>
+            -20 Games<br/>
+            -Playoffs<br/>
+            -Winners Trophy
+        </p>
+    </div>
+</div>

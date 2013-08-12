@@ -1,0 +1,4 @@
+<div id="buildInformation">
+    $!{git.branch}:$!{git.commitIdAbbreviated} - $!{git.buildTime}
+</div>
+<!-- Build Information: $!{git.branch}:$!{git.commitIdAbbreviated} - $!{git.buildTime} by $!{git.commitUserEmail} -->
