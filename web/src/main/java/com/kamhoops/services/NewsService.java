@@ -4,14 +4,12 @@ import com.kamhoops.data.domain.News;
 import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.data.repository.NewsRepository;
 import com.kamhoops.exceptions.EntityValidationException;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
-import org.springframework.validation.FieldError;
 
 @Service
 public class NewsService extends AbstractService<NewsRepository, News> {
@@ -24,18 +22,9 @@ public class NewsService extends AbstractService<NewsRepository, News> {
 
     private void preCreateChecks(News news) throws EntityValidationException {
         Assert.notNull(news, "cannot create null news");
-
-        if (news.getId() != null) {
-            throw new EntityValidationException(new FieldError("news", "id", "id is not null, are you sure this is an object ot be created"));
-        }
-
-        if (StringUtils.isBlank(news.getTitle())) {
-            throw new EntityValidationException(new FieldError("news", "title", "Supplied title of null or blank is invalid"));
-        }
-
-        if (StringUtils.isBlank(news.getContent())) {
-            throw new EntityValidationException(new FieldError("news", "content", "Supplied content of null or blank is invalid"));
-        }
+        Assert.isNull(news.getId(), "cannot create object with an id");
+        Assert.hasText(news.getTitle(), "cannot create with a blank title");
+        Assert.hasText(news.getContent(), "cannot create with blank content");
 
         validateEntity(news);
     }
@@ -48,33 +37,19 @@ public class NewsService extends AbstractService<NewsRepository, News> {
 
     private void preUpdateChecks(News modifiedNews) throws EntityValidationException, EntityNotFoundException {
         Assert.notNull(modifiedNews, "cannot create null news");
-
-        if (modifiedNews.getId() == null) {
-            throw new EntityValidationException(new FieldError("news", "id", "id is null, are you sure this is an object ot be updated"));
-        }
+        Assert.notNull(modifiedNews.getId(), "cannot update object without an id");
+        Assert.hasText(modifiedNews.getTitle(), "cannot update with a blank title");
+        Assert.hasText(modifiedNews.getContent(), "cannot update with blank content");
 
         //forces a check to make sure the object already exists
         findById(modifiedNews.getId());
-
-        if (StringUtils.isBlank(modifiedNews.getTitle())) {
-            throw new EntityValidationException(new FieldError("news", "title", "Supplied title of null or blank is invalid"));
-        }
-
-        if (StringUtils.isBlank(modifiedNews.getContent())) {
-            throw new EntityValidationException(new FieldError("news", "content", "Supplied content of null or blank is invalid"));
-        }
 
         validateEntity(modifiedNews);
     }
 
     public Page<News> findNewsPage(int page, int size) {
         PageRequest request = new PageRequest(page, size, Sort.Direction.DESC, "createDate");
-        Page<News> news = repository.findAllByActiveTrue(request);
         return repository.findAllByActiveTrue(request);
-    }
-
-    public Long count() {
-        return repository.count();
     }
 
     @Override

@@ -56,6 +56,14 @@ public abstract class AbstractService<REPO extends BaseJpaRepository<ENTITY>, EN
         return entity;
     }
 
+    public int count() {
+        return findAll().size();
+    }
+
+    public int countActive() {
+        return findAllActive().size();
+    }
+
     public ENTITY toggleActiveById(Long id) throws EntityNotFoundException {
         ENTITY entity = findById(id);
         entity.setActive(!entity.isActive());

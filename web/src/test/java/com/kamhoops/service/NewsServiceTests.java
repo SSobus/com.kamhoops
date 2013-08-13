@@ -32,16 +32,16 @@ public class NewsServiceTests extends BaseTest {
         newsService.create(null);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenCreatingWithAnObjectWithAnId() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnObjectWithAnId() throws EntityValidationException {
         News news = new News();
         news.setId(99L);
 
         newsService.create(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenCreatingWithANullTitle() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithANullTitle() throws EntityValidationException {
         News news = new News();
         news.setTitle(null);
         news.setContent("Content");
@@ -49,8 +49,8 @@ public class NewsServiceTests extends BaseTest {
         newsService.create(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenCreatingWithABlankTitle() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankTitle() throws EntityValidationException {
         News news = new News();
         news.setTitle(" ");
         news.setContent("Content");
@@ -58,8 +58,8 @@ public class NewsServiceTests extends BaseTest {
         newsService.create(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenCreatingWithNullContent() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithNullContent() throws EntityValidationException {
         News news = new News();
         news.setTitle("Title");
         news.setContent(null);
@@ -67,8 +67,8 @@ public class NewsServiceTests extends BaseTest {
         newsService.create(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenCreatingWithBlankContent() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithBlankContent() throws EntityValidationException {
         News news = new News();
         news.setTitle("Title");
         news.setContent(" ");
@@ -98,8 +98,8 @@ public class NewsServiceTests extends BaseTest {
         newsService.update(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenUpdatingWithANullTitle() throws EntityValidationException, EntityNotFoundException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithANullTitle() throws EntityValidationException, EntityNotFoundException {
         News news = dataGenerator.createTestNews();
 
         news.setTitle(null);
@@ -107,32 +107,32 @@ public class NewsServiceTests extends BaseTest {
         newsService.update(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenUpdatingWithABlankTitle() throws EntityValidationException, EntityNotFoundException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithABlankTitle() throws EntityValidationException, EntityNotFoundException {
         News news = dataGenerator.createTestNews();
         news.setTitle(" ");
 
         newsService.update(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenUpdatingWithNullContent() throws EntityValidationException, EntityNotFoundException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithNullContent() throws EntityValidationException, EntityNotFoundException {
         News news = dataGenerator.createTestNews();
         news.setContent(null);
 
         newsService.update(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenUpdatingWithBlankContent() throws EntityValidationException, EntityNotFoundException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithBlankContent() throws EntityValidationException, EntityNotFoundException {
         News news = dataGenerator.createTestNews();
         news.setContent(" ");
 
         newsService.update(news);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenUpdatingWithNullId() throws EntityValidationException, EntityNotFoundException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithNullId() throws EntityValidationException, EntityNotFoundException {
         News news = dataGenerator.createTestNews();
         news.setId(null);
 

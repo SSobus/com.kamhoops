@@ -106,8 +106,8 @@ public class SeasonServiceTests extends BaseTest {
         seasonService.create(badSeason);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenCreatingASeasonWithAnId() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingASeasonWithAnId() throws EntityValidationException {
         Season season = dataGenerator.createTestSeason();
 
         seasonService.create(season);
@@ -131,8 +131,8 @@ public class SeasonServiceTests extends BaseTest {
         seasonService.update(null);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenUpdatingASeasonWithANullId() throws EntityValidationException, EntityNotFoundException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenUpdatingASeasonWithANullId() throws EntityValidationException, EntityNotFoundException {
         Season season = dataGenerator.getTestSeason();
         seasonService.update(season);
     }

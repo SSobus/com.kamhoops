@@ -24,12 +24,9 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
 
     private void preCreateChecks(Season season) throws EntityValidationException {
         Assert.notNull(season, "Cannot create null season");
+        Assert.isNull(season.getId(), "Cannot create object with a null id");
         Assert.notNull(season.getStartDate(), "Season cannot have a null startDate");
         Assert.notNull(season.getEndDate(), "Season cannot have a null endDate");
-
-        if (season.getId() != null) {
-            throw new EntityValidationException(new FieldError("season", "id", "Supplied season id is not valid"));
-        }
 
         //check to see if Season End Date is before Season Start Date
         if (season.getStartDate().after(season.getEndDate())) {
@@ -40,7 +37,7 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
         checkIfDatesOverlapWithAnotherEndDate(season);
 
         if (season.getCurrentSeason()) {
-            checkIfAnotherSeasonMarkedAsCurrent();
+            checkIfAnotherSeasonMarkedAsCurrent(season);
         }
 
         validateEntity(season);
@@ -54,14 +51,12 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
 
     private void preUpdateChecksAndMerge(Season modifiedSeason) throws EntityValidationException, EntityNotFoundException {
         Assert.notNull(modifiedSeason, "Cannot update null season");
+        Assert.notNull(modifiedSeason.getId(), "Cannot update object with a null id");
+        Assert.notNull(modifiedSeason.getStartDate(), "Season cannot have a null startDate");
+        Assert.notNull(modifiedSeason.getEndDate(), "Season cannot have a null endDate");
 
-        if (modifiedSeason.getId() == null) {
-            throw new EntityValidationException(new FieldError("season", "id", "Supplied season id is not valid"));
-        }
-
+        //forces a check to see if season exists
         Season existingSeason = findById(modifiedSeason.getId());
-
-        Assert.notNull(existingSeason, "Season to update does not exist");
 
         //check dates for overlapping
         if (!existingSeason.getStartDate().equals(modifiedSeason.getStartDate())) {
@@ -73,7 +68,7 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
         }
 
         if (modifiedSeason.getCurrentSeason()) {
-            checkIfAnotherSeasonMarkedAsCurrent();
+            checkIfAnotherSeasonMarkedAsCurrent(modifiedSeason);
         }
 
         validateEntity(modifiedSeason);
@@ -106,12 +101,20 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
         }
     }
 
-    private void checkIfAnotherSeasonMarkedAsCurrent() throws EntityValidationException {
+    private void checkIfAnotherSeasonMarkedAsCurrent(Season current) throws EntityValidationException {
+        Season season;
         BooleanExpression expression = QSeason.season.currentSeason.eq(true);
-        Season season = repository.findOne(expression);
 
-        if (season != null)
+        //check if id exists in order to filter out current season
+        if (current.getId() != null) {
+            expression = expression.and(QSeason.season.id.ne(current.getId()));
+        }
+
+        season = repository.findOne(expression);
+
+        if (season != null) {
             throw new EntityValidationException(new FieldError("season", "current", "A current season already exists"));
+        }
     }
 
     public Season findByDate(Date date) throws EntityNotFoundException {
