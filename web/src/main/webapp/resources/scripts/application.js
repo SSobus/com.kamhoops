@@ -23,6 +23,19 @@ var globalDependencies = [
 ];
 
 angular.module('Kamhoops', globalDependencies)
+    .config(function ($routeProvider, requestContext) {
+        var partialsPath = requestContext + '/partials';
+
+        $routeProvider
+            .when('/', {templateUrl: partialsPath + '/homepage.vm', controller: 'HomepageController'})
+
+        /**
+         * If the route doesn't exist, we'll land the user back to the main logbook list page
+         */
+            .otherwise({redirectTo: '/'})
+        ;
+    })
+
     .run(function ($rootScope, logger, authentication, requestContext) {
         $rootScope.logger = logger;
         $rootScope.requestContext = requestContext;
@@ -31,10 +44,10 @@ angular.module('Kamhoops', globalDependencies)
 
 angular.module('KamhoopsCrm', globalDependencies)
     .config(function ($routeProvider, requestContext) {
-        var crmPartialsPath = requestContext + '/partials/crm';
+        var cmsPartialsPath = requestContext + '/partials/cms';
 
         $routeProvider
-            .when('/', {templateUrl: crmPartialsPath + '/crmHome.html', controller: 'CrmHomeController'})
+            .when('/', {templateUrl: cmsPartialsPath + '/crmHome.html', controller: 'CrmHomeController'})
 
         /**
          * If the route doesn't exist, we'll land the user back to the main logbook list page

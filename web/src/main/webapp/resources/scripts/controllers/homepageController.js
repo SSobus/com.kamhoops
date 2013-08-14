@@ -1,0 +1,1 @@
+angular.module('kamhoops.controllers', ['kamhoops.config', 'kamhoops.services'])

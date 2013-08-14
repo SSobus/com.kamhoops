@@ -22,11 +22,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
+        <module name="com.kamhoops (App)" />
+        <module name="com.kamhoops (Data)" />
         <module name="data" />
         <module name="web" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="com.kamhoops (App)" target="1.7" />
+      <module name="com.kamhoops (Data)" target="1.7" />
       <module name="data" target="1.7" />
       <module name="kamhoops" target="1.7" />
       <module name="web" target="1.7" />

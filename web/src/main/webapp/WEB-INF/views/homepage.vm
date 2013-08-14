@@ -1,4 +1,9 @@
-<!-- Past Game and Future Game quick view -->
-#parse("quickGameView.vm")
+<div ng-controller="homepageController">
 
-#parse("currentNews.vm")
+    <!-- Past Game and Future Game quick view -->
+    #parse("/../partials/gameViews/quickGameView.html")
+
+    <!-- Community News -->
+    #parse("/../partials/currentNews.html")
+
+</div>

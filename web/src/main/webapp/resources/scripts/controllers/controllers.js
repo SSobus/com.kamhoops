@@ -6,4 +6,8 @@ angular.module('Kamhoops.controllers', ['Kamhoops.config', 'Kamhoops.services'])
         };
     })
 
+    .controller('HomepageController', function ($scope) {
+
+    })
+
 ;

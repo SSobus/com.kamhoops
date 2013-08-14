@@ -339,7 +339,7 @@
                     <redirectTestOutputToFile>true</redirectTestOutputToFile>
 
                     <skip>false</skip>
-                    <skipTests>false</skipTests>
+                    <skipTests>true</skipTests>
 
                     <failIfNoTests>true</failIfNoTests>
                 </configuration>

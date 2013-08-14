@@ -7,6 +7,9 @@
     <option name="OPEN_IN_BROWSER" value="true" />
     <option name="OUTPUT_DIRECTORY" value="D:\projects\tests" />
   </component>
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/web" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>

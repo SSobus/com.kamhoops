@@ -75,7 +75,7 @@
 <script src="${contextPath}/resources/scripts/controllers/controllers.js"></script>
 <script src="${contextPath}/resources/scripts/application.js"></script>
 
-    #parse("buildInformation.vm")
+    #parse("template/buildInformation.vm")
 
 <div class="clearfix"></div>
 </body>
