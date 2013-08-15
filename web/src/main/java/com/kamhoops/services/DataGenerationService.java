@@ -195,6 +195,7 @@ public class DataGenerationService {
     }
 
     public void generateRandomNews(int count) {
+        logger.info("Test News Data Generation Requested");
         News news;
         List<News> newsList = new ArrayList<>();
 

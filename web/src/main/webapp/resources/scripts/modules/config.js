@@ -1,4 +1,4 @@
-angular.module('kamhoops.config', [])
+angular.module('Kamhoops.config', [])
     .value('defaultDateTimeFormat', 'YYYY/MM/DD - HH:mm')
     .value('defaultDateTimeSecondsFormat', 'YYYY/MM/DD - HH:mm:ss')
 

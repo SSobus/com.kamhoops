@@ -1,0 +1,10 @@
+<div ng-controller="KamhoopsController">
+
+    <header-view></header-view>
+    <navigation-view></navigation-view>
+
+    <div ng-view>
+
+    </div>
+
+</div>

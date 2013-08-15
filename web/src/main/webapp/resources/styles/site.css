@@ -226,3 +226,7 @@ th.gameNo, td.gameNo {
 #newsTitle h4 {
     margin: 3px;
 }
+
+#lowerNews {
+    word-wrap: break-word;
+}

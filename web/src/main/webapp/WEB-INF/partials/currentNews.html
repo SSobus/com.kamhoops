@@ -1,5 +1,5 @@
 <div id="news">
-    <div id="mainNews"><span id="newsTitle"><h4>Test</h4></span>Some News About the league</div>
-    <div id="lowerNews"><span id="newsTitle"><h4>Test</h4></span>Some News About the league</div>
-    <div id="lowerNews"><span id="newsTitle"><h4>Test</h4></span>Some News About the league</div>
+    <div id="lowerNews" ng-repeat="news in service.news.data.content"><span id="newsTitle"><h4>
+        {{news.title}}</h4></span>{{news.content}}
+    </div>
 </div>

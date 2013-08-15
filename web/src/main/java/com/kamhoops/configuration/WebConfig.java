@@ -86,7 +86,7 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     public VelocityLayoutViewResolver velocityLayoutViewResolver() {
         VelocityLayoutViewResolver viewResolver = new VelocityLayoutViewResolver();
         viewResolver.setViewClass(VelocityLayoutView.class);
-        viewResolver.setLayoutUrl("template/site.vm");
+        viewResolver.setLayoutUrl("site.vm");
         viewResolver.setCache(false); // TODO : Set to false to removing caching for dev.
         viewResolver.setSuffix(".vm");
         viewResolver.setOrder(1);

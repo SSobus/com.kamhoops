@@ -10,8 +10,20 @@ import org.springframework.web.servlet.ModelAndView;
 public class IndexController {
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getHomePage(ModelAndView mv) {
+    public ModelAndView getIndex(ModelAndView mv) {
+        mv.setViewName("index");
+        return mv;
+    }
+
+    @RequestMapping(value = "homepage", method = RequestMethod.GET)
+    public ModelAndView getHomepage(ModelAndView mv) {
         mv.setViewName("homepage");
+        return mv;
+    }
+
+    @RequestMapping(value = "schedule", method = RequestMethod.GET)
+    public ModelAndView getSchedule(ModelAndView mv) {
+        mv.setViewName("schedule");
         return mv;
     }
 

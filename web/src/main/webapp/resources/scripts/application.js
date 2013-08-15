@@ -27,13 +27,16 @@ angular.module('Kamhoops', globalDependencies)
         var partialsPath = requestContext + '/partials';
 
         $routeProvider
-            .when('/', {templateUrl: partialsPath + '/homepage.vm', controller: 'HomepageController'})
+            .when('/', {templateUrl: partialsPath + '/main/homepage.html', controller: 'HomepageController'})
+            .when('/schedule', {templateUrl: partialsPath + '/main/schedule.html', controller: 'HomepageController'})
 
+
+            .when('/generate/news', {templateUrl: '/generate/news'})
         /**
          * If the route doesn't exist, we'll land the user back to the main logbook list page
          */
-            .otherwise({redirectTo: '/'})
-        ;
+            .otherwise({redirectTo: '/'});
+
     })
 
     .run(function ($rootScope, logger, authentication, requestContext) {

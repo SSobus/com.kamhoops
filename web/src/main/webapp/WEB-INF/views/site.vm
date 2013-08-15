@@ -10,6 +10,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
+<meta name="fragment" content="!"/>
 <head>
     <title>#springMessage("lbl.site.title")</title>
 
@@ -40,8 +41,6 @@
     <script src="${contextPath}/resources/scripts/modules/config.js"></script>
 </head>
 <body ng-app="$ngApp" ng-controller="KamhoopsController">
-    #parse("template/header.vm")
-    #parse("template/navigation.vm")
 
     $screen_content
 
@@ -75,7 +74,7 @@
 <script src="${contextPath}/resources/scripts/controllers/controllers.js"></script>
 <script src="${contextPath}/resources/scripts/application.js"></script>
 
-    #parse("template/buildInformation.vm")
+    #parse("buildInformation.vm")
 
 <div class="clearfix"></div>
 </body>

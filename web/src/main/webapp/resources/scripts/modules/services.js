@@ -247,11 +247,11 @@ angular.module('Kamhoops.services', [])
     })
 
 /**
- * CRM Data Service
+ * Kamhoops Data Service
  *
  * Provides access to the server API for data modification
  */
-    .factory("CrmDataService", function ($rootScope, $http, $timeout, logger, requestContext) {
+    .factory("KamhoopsService", function ($rootScope, $http, $timeout, logger, requestContext) {
 
         var dataTemplate = {
             data: [],
@@ -368,6 +368,30 @@ angular.module('Kamhoops.services', [])
 
         var service = {};
 
+        var news = {
+            news: angular.extend(angular.copy(dataTemplate),
+                {
+                    template: {
+                        id: null,
+                        name: null
+                    }
+                }),
+
+            cleanNews: function (news) {
+                return _.omit(news, '$$hashKey');
+            },
+
+            fetchNews: function () {
+                fetch('/news/list.json', service.news);
+            }
+        };
+
+        angular.extend(service, news);
+
+        // Attach to rootScope for watchers
+        $rootScope.kamhoopsData = service;
+
+        return service;
     })
 
 ;
