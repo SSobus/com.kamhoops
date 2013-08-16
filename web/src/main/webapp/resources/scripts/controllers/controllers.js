@@ -14,4 +14,8 @@ angular.module('Kamhoops.controllers', ['Kamhoops.config', 'Kamhoops.services'])
         $scope.service.fetchNews();
     })
 
+    .controller('ScheduleController', function ($scope, KamhoopsService) {
+
+    })
+
 ;
