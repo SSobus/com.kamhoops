@@ -1,6 +1,8 @@
 package com.kamhoops.data.domain;
 
 import com.kamhoops.data.domain.base.AbstractEntity;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -8,6 +10,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,11 +54,37 @@ public class Season extends AbstractEntity {
         this.currentSeason = currentSeason;
     }
 
+    @JsonIgnore
     public List<Calendar> getCalendar() {
         return calendar;
     }
 
+    @JsonProperty
     public void setCalendar(List<Calendar> calendar) {
         this.calendar = calendar;
+    }
+
+    public void addCalendar(Calendar calendar) {
+        if (this.calendar == null) {
+            this.calendar = new ArrayList<>();
+        }
+
+        calendar.setSeason(this);
+
+        if (!this.calendar.contains(calendar)) {
+            this.calendar.add(calendar);
+        }
+    }
+
+    public void removeCalendar(Calendar calendar) {
+        if (this.calendar == null) {
+            return;
+        }
+
+        calendar.setSeason(null);
+
+        if (this.calendar.contains(calendar)) {
+            this.calendar.remove(calendar);
+        }
     }
 }

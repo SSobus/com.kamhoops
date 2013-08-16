@@ -4,9 +4,7 @@ import com.kamhoops.data.domain.base.AbstractEntity;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -15,7 +13,10 @@ public class Team extends AbstractEntity {
 
     private String name;
 
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name = "TEAM_PLAYER",
+            joinColumns = {@JoinColumn(name = "TEAM")},
+            inverseJoinColumns = {@JoinColumn(name = "PLAYER")})
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Player> player;
 
