@@ -230,3 +230,14 @@ th.gameNo, td.gameNo {
 #lowerNews {
     word-wrap: break-word;
 }
+
+div.spinner {
+    display: block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    margin: -8px auto;
+    background: url("./images/spinner.gif") no-repeat center center;
+    background-size: 100%;
+    z-index: 10;
+}

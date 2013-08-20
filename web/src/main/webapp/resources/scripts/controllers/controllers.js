@@ -9,7 +9,6 @@ angular.module('Kamhoops.controllers', ['Kamhoops.config', 'Kamhoops.services'])
 
     .controller('HomepageController', function ($scope, KamhoopsService) {
         $scope.service = KamhoopsService;
-        $scope.service.news = {};
 
         $scope.service.fetchNews();
     })
