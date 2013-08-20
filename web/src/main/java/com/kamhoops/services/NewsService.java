@@ -23,28 +23,31 @@ public class NewsService extends AbstractService<NewsRepository, News> {
     private void preCreateChecks(News news) throws EntityValidationException {
         Assert.notNull(news, "cannot create null news");
         Assert.isNull(news.getId(), "cannot create object with an id");
-        Assert.hasText(news.getTitle(), "cannot create with a blank title");
-        Assert.hasText(news.getContent(), "cannot create with blank content");
 
         validateEntity(news);
     }
 
-    public News update(News modifiedNews) throws EntityValidationException, EntityNotFoundException {
-        preUpdateChecks(modifiedNews);
+    public News update(News news) throws EntityValidationException, EntityNotFoundException {
+        news = preUpdateChecksAndMerges(news);
 
-        return repository.save(modifiedNews);
+        return repository.save(news);
     }
 
-    private void preUpdateChecks(News modifiedNews) throws EntityValidationException, EntityNotFoundException {
-        Assert.notNull(modifiedNews, "cannot create null news");
-        Assert.notNull(modifiedNews.getId(), "cannot update object without an id");
-        Assert.hasText(modifiedNews.getTitle(), "cannot update with a blank title");
-        Assert.hasText(modifiedNews.getContent(), "cannot update with blank content");
+    private News preUpdateChecksAndMerges(News news) throws EntityValidationException, EntityNotFoundException {
+        Assert.notNull(news, "cannot create null news");
+        Assert.notNull(news.getId(), "cannot update object without an id");
+
+        validateEntity(news);
 
         //forces a check to make sure the object already exists
-        findById(modifiedNews.getId());
+        News existingNews = findById(news.getId());
 
-        validateEntity(modifiedNews);
+        existingNews.setTitle(news.getTitle());
+        existingNews.setContent(news.getContent());
+
+        validateEntity(existingNews);
+
+        return existingNews;
     }
 
     public Page<News> findNewsPage(int page, int size) {

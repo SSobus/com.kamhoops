@@ -21,26 +21,31 @@ public class GameTimeService extends AbstractService<GameTimeRepository, GameTim
     private void preCreateChecks(GameTime gameTime) throws EntityValidationException {
         Assert.notNull(gameTime, "Supplied gameTime cannot be null");
         Assert.isNull(gameTime.getId(), "Supplied gameTime cannot have an Id, are you sure this object should be created");
-        Assert.hasText(gameTime.getTime(), "Supplied time cannot be null or blank");
 
         validateEntity(gameTime);
     }
 
     public GameTime update(GameTime gameTime) throws EntityValidationException, EntityNotFoundException {
-        preUpdateChecksAndMerges(gameTime);
+        gameTime = preUpdateChecksAndMerges(gameTime);
 
         return repository.save(gameTime);
     }
 
-    private void preUpdateChecksAndMerges(GameTime gameTime) throws EntityValidationException, EntityNotFoundException {
+    private GameTime preUpdateChecksAndMerges(GameTime gameTime) throws EntityValidationException, EntityNotFoundException {
         Assert.notNull(gameTime, "Supplied gameTime cannot be null");
         Assert.notNull(gameTime.getId(), "Supplied gameTime does not have an Id, are you sure this object should be updated");
-        Assert.hasText(gameTime.getTime(), "Supplied time cannot be null or blank");
-
-        //forces a check to see if the gameTime exists
-        findById(gameTime.getId());
 
         validateEntity(gameTime);
+
+        GameTime existingGameTime = findById(gameTime.getId());
+
+        existingGameTime.setTime(gameTime.getTime());
+
+        validateEntity(existingGameTime);
+
+        return existingGameTime;
+
+
     }
 
     @Override

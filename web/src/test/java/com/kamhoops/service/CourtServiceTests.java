@@ -1,11 +1,11 @@
 package com.kamhoops.service;
 
-import com.kamhoops.data.domain.GameTime;
+import com.kamhoops.data.domain.Court;
 import com.kamhoops.data.exceptions.EntityNotFoundException;
-import com.kamhoops.data.repository.GameTimeRepository;
+import com.kamhoops.data.repository.CourtRepository;
 import com.kamhoops.exception.TestingValidationError;
 import com.kamhoops.exceptions.EntityValidationException;
-import com.kamhoops.services.GameTimeService;
+import com.kamhoops.services.CourtService;
 import com.kamhoops.support.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,90 +13,90 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertTrue;
 
-public class GameTimeServiceTests extends BaseTest {
+public class CourtServiceTests extends BaseTest {
 
     @Autowired
-    GameTimeService gameTimeService;
+    CourtService courtService;
 
-    private GameTimeRepository gameTimeRepository;
+    private CourtRepository courtRepository;
 
     @Before
     public void init() {
         dataGenerator.deleteAll();
-        gameTimeRepository = gameTimeService.getRepository();
+        courtRepository = courtService.getRepository();
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCreatingNull() throws EntityValidationException {
-        gameTimeService.create(null);
+        courtService.create(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException {
-        GameTime gameTime = new GameTime();
-        gameTime.setId(99L);
+        Court court = new Court();
+        court.setId(99L);
 
-        gameTimeService.create(null);
+        courtService.create(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankTime() throws EntityValidationException {
-        GameTime gameTime = new GameTime();
-        gameTime.setTime(" ");
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankName() throws EntityValidationException {
+        Court court = new Court();
+        court.setName(" ");
 
-        gameTimeService.create(null);
+        courtService.create(null);
     }
 
     @Test
-    public void shouldSaveAGameTime() throws EntityValidationException, TestingValidationError {
-        GameTime gameTime = new GameTime();
+    public void shouldSaveACourt() throws EntityValidationException, TestingValidationError {
+        Court court = new Court();
 
-        gameTime.setTime("7:00");
+        court.setName("Champ");
 
-        validateEntity(gameTime);
+        validateEntity(court);
 
-        gameTimeService.create(gameTime);
+        courtService.create(court);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenUpdatingNull() throws EntityValidationException, EntityNotFoundException {
-        gameTimeService.update(null);
+        courtService.update(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithANullId() throws EntityValidationException, EntityNotFoundException {
-        GameTime gameTime = dataGenerator.createTestGameTime();
-        gameTime.setId(null);
+        Court court = dataGenerator.createTestCourt();
+        court.setId(null);
 
-        gameTimeService.update(gameTime);
+        courtService.update(court);
     }
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithAnInvalidId() throws EntityValidationException, EntityNotFoundException {
-        GameTime gameTime = dataGenerator.createTestGameTime();
-        gameTime.setId(0L);
+        Court court = dataGenerator.createTestCourt();
+        court.setId(0L);
 
-        gameTimeService.update(gameTime);
+        courtService.update(court);
     }
 
     @Test(expected = EntityValidationException.class)
     public void shouldThrowEntityValidationExceptionWhenUpdatingWithABlankTime() throws EntityValidationException, EntityNotFoundException {
-        GameTime gameTime = dataGenerator.createTestGameTime();
-        gameTime.setTime(" ");
+        Court court = dataGenerator.createTestCourt();
+        court.setName(" ");
 
-        gameTimeService.update(gameTime);
+        courtService.update(court);
     }
 
     @Test
-    public void shouldUpdateGameTime() throws EntityValidationException, EntityNotFoundException {
-        GameTime gameTime = dataGenerator.createTestGameTime();
-        gameTime.setTime("9:99");
+    public void shouldUpdateCourt() throws EntityValidationException, EntityNotFoundException {
+        Court court = dataGenerator.createTestCourt();
+        court.setName("Mid");
 
-        gameTimeService.update(gameTime);
+        courtService.update(court);
     }
 
     @Test
     public void repositoryShouldHaveAnEntityType() {
-        assertTrue(gameTimeService.getEntityTypeClass() == GameTime.class);
+        assertTrue(courtService.getEntityTypeClass() == Court.class);
     }
 }

@@ -31,9 +31,8 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
     }
 
     private void preCreateUserAccountChecks(UserAccount userAccount) throws EntityValidationException {
-        if (userAccount.getId() != null) {
-            throw new EntityValidationException(new FieldError("userAccount", "id", "Supplied account ID must be null"));
-        }
+        Assert.notNull(userAccount, "Supplied user account cannot be null");
+        Assert.isNull(userAccount.getId(), "Supplied user account to be created cannot have an id");
 
         checkForDuplicateUserByUsername(userAccount.getUsername());
         checkForDuplicateUserByEmail(userAccount.getEmail());
@@ -53,10 +52,9 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
 
     private void preUpdateUserAccountChecksAndMerge(UserAccount modifiedUserAccount) throws EntityValidationException, EntityNotFoundException {
         Assert.notNull(modifiedUserAccount, "Cannot update null userAccount");
+        Assert.notNull(modifiedUserAccount.getId(), "Cannot update userAccount without an id");
 
         UserAccount existingUserAccount = findById(modifiedUserAccount.getId());
-
-        Assert.notNull(existingUserAccount.getId(), "Cannot find userAccount to update");
 
         // User has changed their password? Need to re-encrypt
         if (!StringUtils.isBlank(modifiedUserAccount.getPassword())) {

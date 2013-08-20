@@ -3,10 +3,7 @@ package com.kamhoops.services;
 
 import com.kamhoops.configuration.ApplicationConfig;
 import com.kamhoops.configuration.PersistenceJpaConfig;
-import com.kamhoops.data.domain.GameTime;
-import com.kamhoops.data.domain.News;
-import com.kamhoops.data.domain.Season;
-import com.kamhoops.data.domain.UserAccount;
+import com.kamhoops.data.domain.*;
 import com.kamhoops.data.domain.enums.UserRole;
 import com.kamhoops.exceptions.EntityValidationException;
 import org.apache.commons.lang.RandomStringUtils;
@@ -36,6 +33,9 @@ public class DataGenerationService {
 
     @Autowired
     private GameTimeService gameTimeService;
+
+    @Autowired
+    private CourtService courtService;
 
     @Autowired
     private UserAccountService userAccountService;
@@ -71,6 +71,7 @@ public class DataGenerationService {
     List<Season> seasonsTestData = new ArrayList<>();
     List<GameTime> gameTimeTestData = new ArrayList<>();
     List<News> newsTestData = new ArrayList<>();
+    List<Court> courtTestData = new ArrayList<>();
 
     private String getRandomFirstName() {
         return firstNames[RandomUtils.nextInt(firstNames.length)];
@@ -86,8 +87,10 @@ public class DataGenerationService {
 
     public void deleteAll() {
         userAccountService.getRepository().deleteAll();
+
         gameTimeService.getRepository().deleteAll();
         seasonService.getRepository().deleteAll();
+        courtService.getRepository().deleteAll();
 
         newsService.getRepository().deleteAll();
     }
@@ -161,6 +164,38 @@ public class DataGenerationService {
 
     public GameTime createTestGameTime() throws EntityValidationException {
         return gameTimeService.create(getTestGameTime());
+    }
+
+    public void generateCourts() {
+        List<Court> courts = new ArrayList<>();
+
+        Court court = new Court();
+        court.setName("Champion");
+        courts.add(court);
+
+        court = new Court();
+        court.setName("Middle");
+        courts.add(court);
+
+        courtTestData = courtService.getRepository().save(courts);
+    }
+
+    public Court getRandomCourt() {
+        if (courtService.getRepository().count() == 0)
+            generateCourts();
+
+        return courtTestData.get(RandomUtils.nextInt(courtTestData.size()));
+    }
+
+    public Court getTestCourt() {
+        Court court = new Court();
+        court.setName(RandomStringUtils.randomAlphabetic(5));
+
+        return court;
+    }
+
+    public Court createTestCourt() throws EntityValidationException {
+        return courtService.create(getTestCourt());
     }
 
     //USER ACCOUNT FUNCTIONS
@@ -246,6 +281,4 @@ public class DataGenerationService {
 
         logger.info("Test Data Generation done");
     }
-
-
 }

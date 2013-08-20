@@ -25,8 +25,6 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
     private void preCreateChecks(Season season) throws EntityValidationException {
         Assert.notNull(season, "Cannot create null season");
         Assert.isNull(season.getId(), "Cannot create object with a null id");
-        Assert.notNull(season.getStartDate(), "Season cannot have a null startDate");
-        Assert.notNull(season.getEndDate(), "Season cannot have a null endDate");
 
         //check to see if Season End Date is before Season Start Date
         if (season.getStartDate().after(season.getEndDate())) {
@@ -52,8 +50,8 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
     private void preUpdateChecksAndMerge(Season modifiedSeason) throws EntityValidationException, EntityNotFoundException {
         Assert.notNull(modifiedSeason, "Cannot update null season");
         Assert.notNull(modifiedSeason.getId(), "Cannot update object with a null id");
-        Assert.notNull(modifiedSeason.getStartDate(), "Season cannot have a null startDate");
-        Assert.notNull(modifiedSeason.getEndDate(), "Season cannot have a null endDate");
+
+        validateEntity(modifiedSeason);
 
         //forces a check to see if season exists
         Season existingSeason = findById(modifiedSeason.getId());
@@ -70,6 +68,9 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
         if (modifiedSeason.getCurrentSeason()) {
             checkIfAnotherSeasonMarkedAsCurrent(modifiedSeason);
         }
+
+        existingSeason.setStartDate(modifiedSeason.getStartDate());
+        existingSeason.setEndDate(modifiedSeason.getEndDate());
 
         validateEntity(modifiedSeason);
 

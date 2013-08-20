@@ -123,8 +123,8 @@ public class UserAccountServiceTests extends BaseTest {
         assertThat(userAccounts).hasSize(3);
     }
 
-    @Test(expected = EntityValidationException.class)
-    public void shouldNotCreateAUserAccountIfItWasSuppliedWithAnId() throws EntityValidationException {
+    @Test(expected = IllegalArgumentException.class)
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
         userAccount.setId(5L);
 
