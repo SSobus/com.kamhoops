@@ -54,7 +54,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test
-    public void shouldCreateAUserAccount() throws EntityValidationException {
+    public void shouldCreateAUserAccount() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
 
         userAccount = userAccountService.create(userAccount);
@@ -113,7 +113,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test
-    public void shouldFindAllUsers() throws EntityValidationException {
+    public void shouldFindAllUsers() throws EntityValidationException, EntityNotFoundException {
         userAccountService.create(dataGenerator.getRandomAdminUser());
         userAccountService.create(dataGenerator.getRandomCaptainUser());
         userAccountService.create(dataGenerator.getRandomCaptainUser());
@@ -124,7 +124,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
         userAccount.setId(5L);
 
@@ -132,7 +132,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test(expected = DuplicateEntityException.class)
-    public void shouldNotCreateADuplicateAccountWhenTheUsernameAlreadyExists() throws EntityValidationException {
+    public void shouldNotCreateADuplicateAccountWhenTheUsernameAlreadyExists() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
         userAccountService.create(userAccount);
 
@@ -142,7 +142,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test(expected = DuplicateEntityException.class)
-    public void shouldNotCreateADuplicateAccountWhenTheEmailAlreadyExists() throws EntityValidationException {
+    public void shouldNotCreateADuplicateAccountWhenTheEmailAlreadyExists() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomCaptainUser();
         userAccountService.create(userAccount);
 
@@ -152,7 +152,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldNotCreateAnAccountWithABlankUsername() throws EntityValidationException {
+    public void shouldNotCreateAnAccountWithABlankUsername() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
 
         userAccount.setUsername("   ");
@@ -160,7 +160,7 @@ public class UserAccountServiceTests extends BaseTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldNotCreateAnAccountWithABlankEmail() throws EntityValidationException {
+    public void shouldNotCreateAnAccountWithABlankEmail() throws EntityValidationException, EntityNotFoundException {
         UserAccount userAccount = dataGenerator.getRandomAdminUser();
 
         userAccount.setEmail("   ");

@@ -23,11 +23,13 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserAccount create(UserAccount userAccount) throws EntityValidationException {
+    public UserAccount create(UserAccount userAccount) throws EntityValidationException, EntityNotFoundException {
         preCreateUserAccountChecks(userAccount);
         encryptUserAccountPassword(userAccount);
 
-        return repository.save(userAccount);
+        userAccount = repository.save(userAccount);
+
+        return findById(userAccount.getId());
     }
 
     private void preCreateUserAccountChecks(UserAccount userAccount) throws EntityValidationException {
@@ -47,7 +49,9 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
     public UserAccount update(UserAccount modifiedUserAccount) throws EntityNotFoundException, EntityValidationException {
         preUpdateUserAccountChecksAndMerge(modifiedUserAccount);
 
-        return repository.save(modifiedUserAccount);
+        modifiedUserAccount = repository.save(modifiedUserAccount);
+
+        return findById(modifiedUserAccount.getId());
     }
 
     private void preUpdateUserAccountChecksAndMerge(UserAccount modifiedUserAccount) throws EntityValidationException, EntityNotFoundException {

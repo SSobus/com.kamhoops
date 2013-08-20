@@ -14,10 +14,12 @@ import org.springframework.util.Assert;
 @Service
 public class NewsService extends AbstractService<NewsRepository, News> {
 
-    public News create(News news) throws EntityValidationException {
+    public News create(News news) throws EntityValidationException, EntityNotFoundException {
         preCreateChecks(news);
 
-        return repository.save(news);
+        news = repository.save(news);
+
+        return findById(news.getId());
     }
 
     private void preCreateChecks(News news) throws EntityValidationException {
@@ -30,7 +32,9 @@ public class NewsService extends AbstractService<NewsRepository, News> {
     public News update(News news) throws EntityValidationException, EntityNotFoundException {
         news = preUpdateChecksAndMerges(news);
 
-        return repository.save(news);
+        news = repository.save(news);
+
+        return findById(news.getId());
     }
 
     private News preUpdateChecksAndMerges(News news) throws EntityValidationException, EntityNotFoundException {

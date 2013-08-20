@@ -11,10 +11,12 @@ import org.springframework.util.Assert;
 @Service
 public class CourtService extends AbstractService<CourtRepository, Court> {
 
-    public Court create(Court court) throws EntityValidationException {
+    public Court create(Court court) throws EntityValidationException, EntityNotFoundException {
         preCreateChecks(court);
 
-        return repository.save(court);
+        court = repository.save(court);
+
+        return findById(court.getId());
     }
 
     private void preCreateChecks(Court court) throws EntityValidationException {
@@ -27,7 +29,9 @@ public class CourtService extends AbstractService<CourtRepository, Court> {
     public Court update(Court court) throws EntityValidationException, EntityNotFoundException {
         court = preUpdateChecksAndMerges(court);
 
-        return repository.save(court);
+        court = repository.save(court);
+
+        return findById(court.getId());
     }
 
     private Court preUpdateChecksAndMerges(Court court) throws EntityValidationException, EntityNotFoundException {

@@ -5,6 +5,7 @@ import com.kamhoops.configuration.ApplicationConfig;
 import com.kamhoops.configuration.PersistenceJpaConfig;
 import com.kamhoops.data.domain.*;
 import com.kamhoops.data.domain.enums.UserRole;
+import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.exceptions.EntityValidationException;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
@@ -36,6 +37,12 @@ public class DataGenerationService {
 
     @Autowired
     private CourtService courtService;
+
+    @Autowired
+    private TeamService teamService;
+
+    @Autowired
+    private PlayerService playerService;
 
     @Autowired
     private UserAccountService userAccountService;
@@ -129,7 +136,7 @@ public class DataGenerationService {
         return season;
     }
 
-    public Season createTestSeason() throws EntityValidationException {
+    public Season createTestSeason() throws EntityValidationException, EntityNotFoundException {
         return seasonService.create(getTestSeason());
     }
 
@@ -162,7 +169,7 @@ public class DataGenerationService {
         return gameTime;
     }
 
-    public GameTime createTestGameTime() throws EntityValidationException {
+    public GameTime createTestGameTime() throws EntityValidationException, EntityNotFoundException {
         return gameTimeService.create(getTestGameTime());
     }
 
@@ -194,7 +201,7 @@ public class DataGenerationService {
         return court;
     }
 
-    public Court createTestCourt() throws EntityValidationException {
+    public Court createTestCourt() throws EntityValidationException, EntityNotFoundException {
         return courtService.create(getTestCourt());
     }
 
@@ -263,7 +270,7 @@ public class DataGenerationService {
         return news;
     }
 
-    public News createTestNews() throws EntityValidationException {
+    public News createTestNews() throws EntityValidationException, EntityNotFoundException {
         return newsService.create(getTestNews());
     }
 

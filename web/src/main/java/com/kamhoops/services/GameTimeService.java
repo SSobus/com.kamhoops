@@ -12,10 +12,12 @@ import org.springframework.util.Assert;
 @Service
 public class GameTimeService extends AbstractService<GameTimeRepository, GameTime> {
 
-    public GameTime create(GameTime gameTime) throws EntityValidationException {
+    public GameTime create(GameTime gameTime) throws EntityValidationException, EntityNotFoundException {
         preCreateChecks(gameTime);
 
-        return repository.save(gameTime);
+        gameTime = repository.save(gameTime);
+
+        return findById(gameTime.getId());
     }
 
     private void preCreateChecks(GameTime gameTime) throws EntityValidationException {
@@ -28,7 +30,9 @@ public class GameTimeService extends AbstractService<GameTimeRepository, GameTim
     public GameTime update(GameTime gameTime) throws EntityValidationException, EntityNotFoundException {
         gameTime = preUpdateChecksAndMerges(gameTime);
 
-        return repository.save(gameTime);
+        gameTime = repository.save(gameTime);
+
+        return findById(gameTime.getId());
     }
 
     private GameTime preUpdateChecksAndMerges(GameTime gameTime) throws EntityValidationException, EntityNotFoundException {

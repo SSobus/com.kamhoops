@@ -27,12 +27,12 @@ public class CourtServiceTests extends BaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingNull() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingNull() throws EntityValidationException, EntityNotFoundException {
         courtService.create(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException, EntityNotFoundException {
         Court court = new Court();
         court.setId(99L);
 
@@ -40,7 +40,7 @@ public class CourtServiceTests extends BaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankName() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankName() throws EntityValidationException, EntityNotFoundException {
         Court court = new Court();
         court.setName(" ");
 
@@ -48,7 +48,7 @@ public class CourtServiceTests extends BaseTest {
     }
 
     @Test
-    public void shouldSaveACourt() throws EntityValidationException, TestingValidationError {
+    public void shouldSaveACourt() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Court court = new Court();
 
         court.setName("Champ");

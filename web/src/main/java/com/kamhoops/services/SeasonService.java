@@ -16,10 +16,12 @@ import java.util.Date;
 @Service
 public class SeasonService extends AbstractService<SeasonRepository, Season> {
 
-    public Season create(Season season) throws EntityValidationException {
+    public Season create(Season season) throws EntityValidationException, EntityNotFoundException {
         preCreateChecks(season);
 
-        return repository.save(season);
+        season = repository.save(season);
+
+        return findById(season.getId());
     }
 
     private void preCreateChecks(Season season) throws EntityValidationException {
@@ -41,10 +43,12 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
         validateEntity(season);
     }
 
-    public Season update(Season modifiedSeason) throws EntityNotFoundException, EntityValidationException {
-        preUpdateChecksAndMerge(modifiedSeason);
+    public Season update(Season season) throws EntityNotFoundException, EntityValidationException {
+        preUpdateChecksAndMerge(season);
 
-        return repository.save(modifiedSeason);
+        season = repository.save(season);
+
+        return findById(season.getId());
     }
 
     private void preUpdateChecksAndMerge(Season modifiedSeason) throws EntityValidationException, EntityNotFoundException {

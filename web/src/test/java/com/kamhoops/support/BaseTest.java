@@ -2,6 +2,7 @@ package com.kamhoops.support;
 
 import com.kamhoops.configuration.TestContextConfiguration;
 import com.kamhoops.data.domain.UserAccount;
+import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.exception.PrivateMethodInvocationException;
 import com.kamhoops.exception.TestingValidationError;
 import com.kamhoops.exceptions.EntityValidationException;
@@ -61,7 +62,7 @@ public abstract class BaseTest {
         }
     }
 
-    public void setAuthenticatedUserAsAdminUser() throws EntityValidationException {
+    public void setAuthenticatedUserAsAdminUser() throws EntityValidationException, EntityNotFoundException {
         this.authenticatedUser = dataGenerator.getRandomAdminUser();
         userAccountService.create(authenticatedUser);
 
@@ -70,7 +71,7 @@ public abstract class BaseTest {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    public void setAuthenticatedUserAsCaptainUser() throws EntityValidationException {
+    public void setAuthenticatedUserAsCaptainUser() throws EntityValidationException, EntityNotFoundException {
         this.authenticatedUser = dataGenerator.getRandomCaptainUser();
         userAccountService.create(authenticatedUser);
 

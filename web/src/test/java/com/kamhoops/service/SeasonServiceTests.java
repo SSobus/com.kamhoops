@@ -54,7 +54,7 @@ public class SeasonServiceTests extends BaseTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenEndDateIsBeforeStartDate() throws EntityValidationException, TestingValidationError {
+    public void shouldThrowEntityValidationExceptionWhenEndDateIsBeforeStartDate() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
         season.setEndDate(new LocalDate(2012, 9, 1).toDate());
@@ -66,7 +66,7 @@ public class SeasonServiceTests extends BaseTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenStartDateIsWithinAnotherSeason() throws EntityValidationException, TestingValidationError {
+    public void shouldThrowEntityValidationExceptionWhenStartDateIsWithinAnotherSeason() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
         season.setStartDate(new LocalDate(2012, 3, 31).toDate());
@@ -80,7 +80,7 @@ public class SeasonServiceTests extends BaseTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenEndDateIsWithinAnotherSeason() throws EntityValidationException, TestingValidationError {
+    public void shouldThrowEntityValidationExceptionWhenEndDateIsWithinAnotherSeason() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
         season.setStartDate(new LocalDate(2012, 3, 31).toDate());
@@ -94,7 +94,7 @@ public class SeasonServiceTests extends BaseTest {
     }
 
     @Test(expected = EntityValidationException.class)
-    public void shouldThrowEntityValidationExceptionWhenAnotherSeasonIsMarkedCurrent() throws EntityValidationException, TestingValidationError {
+    public void shouldThrowEntityValidationExceptionWhenAnotherSeasonIsMarkedCurrent() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = dataGenerator.getTestSeason();
         season.setCurrentSeason(true);
         seasonService.create(season);
@@ -107,14 +107,14 @@ public class SeasonServiceTests extends BaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingASeasonWithAnId() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingASeasonWithAnId() throws EntityValidationException, EntityNotFoundException {
         Season season = dataGenerator.createTestSeason();
 
         seasonService.create(season);
     }
 
     @Test
-    public void shouldCreateASeason() throws EntityValidationException, TestingValidationError {
+    public void shouldCreateASeason() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
         season.setStartDate(new LocalDate(2012, 9, 1).toDate());

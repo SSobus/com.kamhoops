@@ -27,12 +27,12 @@ public class GameTimeServiceTests extends BaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingNull() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingNull() throws EntityValidationException, EntityNotFoundException {
         gameTimeService.create(null);
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithAnId() throws EntityValidationException, EntityNotFoundException {
         GameTime gameTime = new GameTime();
         gameTime.setId(99L);
 
@@ -40,7 +40,7 @@ public class GameTimeServiceTests extends BaseTest {
     }
 
     @Test(expected = IllegalArgumentException.class)
-    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankTime() throws EntityValidationException {
+    public void shouldThrowIllegalArgumentExceptionWhenCreatingWithABlankTime() throws EntityValidationException, EntityNotFoundException {
         GameTime gameTime = new GameTime();
         gameTime.setTime(" ");
 
@@ -48,7 +48,7 @@ public class GameTimeServiceTests extends BaseTest {
     }
 
     @Test
-    public void shouldSaveAGameTime() throws EntityValidationException, TestingValidationError {
+    public void shouldSaveAGameTime() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         GameTime gameTime = new GameTime();
 
         gameTime.setTime("7:00");
