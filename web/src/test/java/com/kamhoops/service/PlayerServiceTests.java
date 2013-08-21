@@ -2,20 +2,26 @@ package com.kamhoops.service;
 
 
 import com.kamhoops.data.domain.Player;
+import com.kamhoops.data.domain.Team;
 import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.data.repository.PlayerRepository;
 import com.kamhoops.exceptions.EntityValidationException;
 import com.kamhoops.services.PlayerService;
+import com.kamhoops.services.TeamService;
 import com.kamhoops.support.BaseTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.Assert.assertTrue;
 
 public class PlayerServiceTests extends BaseTest {
     @Autowired
     private PlayerService playerService;
+
+    @Autowired
+    private TeamService teamService;
 
     PlayerRepository playerRepository;
 
@@ -105,7 +111,18 @@ public class PlayerServiceTests extends BaseTest {
         assertTrue(player.getFirstName().equals("NewName"));
     }
 
-    //TODO: Test Add and Remove Team
+    @Test
+    @Transactional
+    public void shouldAddAndRemoveTeamFromPlayer() throws EntityValidationException, EntityNotFoundException {
+        Player player = dataGenerator.createTestPlayer();
+        Team team = dataGenerator.createTestTeam();
+
+        team = teamService.addPlayer(team, player);
+        player = playerService.addTeam(player, team);
+
+        team = teamService.removePlayer(team, player);
+        player = playerService.removeTeam(player, team);
+    }
 
     @Test
     public void repositoryShouldHaveAnEntityType() {

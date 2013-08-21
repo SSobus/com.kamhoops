@@ -46,7 +46,7 @@ public class Team extends AbstractEntity {
     }
 
     public void addPlayer(Player player) {
-        if (player == null) {
+        if (players == null) {
             players = new ArrayList<>();
         }
 
