@@ -17,4 +17,10 @@ angular.module('Kamhoops.controllers', ['Kamhoops.config', 'Kamhoops.services'])
 
     })
 
+    .controller('TeamController', function ($scope, KamhoopsService) {
+        $scope.service = KamhoopsService;
+
+        $scope.service.fetchTeams();
+    })
+
 ;

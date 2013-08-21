@@ -151,13 +151,13 @@ public class NewsServiceTests extends BaseTest {
 
     @Test
     public void shouldReturnACount() {
-        dataGenerator.generateRandomNews(5);
+        dataGenerator.generateNews(5);
         assertTrue(newsService.count() == 5);
     }
 
     @Test
     public void shouldReturnAPageOfNews() {
-        dataGenerator.generateRandomNews(10);
+        dataGenerator.generateNews(10);
 
         Page<News> newsPage = newsService.findNewsPage(0, 3);
 

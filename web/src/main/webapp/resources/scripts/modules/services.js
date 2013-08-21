@@ -386,7 +386,24 @@ angular.module('Kamhoops.services', [])
             }
         };
 
-        angular.extend(service, news);
+        var teams = {
+            teams: angular.extend(angular.copy(dataTemplate),
+                {
+                    template: {
+                        id: null,
+                        name: null
+                    }
+                }),
+            cleanTeams: function (teams) {
+                return _.omit(teams, '$$hashKey');
+            },
+
+            fetchTeams: function () {
+                fetch('/teams/list.json', service.teams);
+            }
+        }
+
+        angular.extend(service, news, teams);
 
         // Attach to rootScope for watchers
         $rootScope.kamhoopsData = service;

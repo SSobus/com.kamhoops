@@ -14,6 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -21,7 +22,9 @@ import java.util.List;
 
 @Service
 public class DataGenerationService {
-    public final int GENERATE_PLAYER_COUNT = 30;
+    public final int GENERATE_PLAYER_COUNT = 10;
+    public final int GENERATE_TEAM_COUNT = 8;
+    public final int GENERATE_NEWS_COUNT = 10;
 
     private static Logger logger = LoggerFactory.getLogger(DataGenerationService.class);
 
@@ -240,7 +243,7 @@ public class DataGenerationService {
         return user;
     }
 
-    public void generateRandomNews(int count) {
+    public void generateNews(int count) {
         logger.info("Test News Data Generation Requested");
         News news;
         List<News> newsList = new ArrayList<>();
@@ -259,7 +262,7 @@ public class DataGenerationService {
 
     public News getRandomNews() {
         if (newsService.count() == 0) {
-            generateRandomNews(10);
+            generateNews(GENERATE_NEWS_COUNT);
         }
 
         return newsTestData.get(RandomUtils.nextInt(newsTestData.size()));
@@ -320,7 +323,7 @@ public class DataGenerationService {
 
     public Team getRandomTeam() {
         if (teamTestData.size() == 0) {
-            generateTeams(GENERATE_PLAYER_COUNT);
+            generateTeams(GENERATE_TEAM_COUNT);
         }
 
         return teamTestData.get(RandomUtils.nextInt(teamTestData.size()));
@@ -337,6 +340,22 @@ public class DataGenerationService {
         return teamService.create(getTestTeam());
     }
 
+    @Transactional
+    public void generateTeamAndPlayers() throws EntityValidationException, EntityNotFoundException {
+        Team team;
+        Player player;
+
+        for (int i = 0; i < GENERATE_TEAM_COUNT; i++) {
+            team = createTestTeam();
+
+            for (int p = 0; p < GENERATE_PLAYER_COUNT; p++) {
+                player = createTestPlayer();
+                teamService.addPlayer(team, player);
+                playerService.addTeam(player, team);
+            }
+        }
+    }
+
 
     @PostConstruct
     public void postConstruct() throws EntityValidationException {
@@ -350,5 +369,16 @@ public class DataGenerationService {
         generateSeasons();
 
         logger.info("Test Data Generation done");
+    }
+
+    @Transactional
+    public void generateData() throws EntityNotFoundException, EntityValidationException {
+        generateNews(GENERATE_NEWS_COUNT);
+
+        generateSeasons();
+        generateCourts();
+        generateGameTimes();
+
+        generateTeamAndPlayers();
     }
 }

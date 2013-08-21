@@ -1,5 +1,7 @@
 package com.kamhoops.controllers;
 
+import com.kamhoops.data.exceptions.EntityNotFoundException;
+import com.kamhoops.exceptions.EntityValidationException;
 import com.kamhoops.services.DataGenerationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,8 +14,8 @@ public class DataGenerationController {
     @Autowired
     DataGenerationService service;
 
-    @RequestMapping(value = "news")
-    public void generateNews() {
-        service.generateRandomNews(10);
+    @RequestMapping()
+    public void generateNews() throws EntityValidationException, EntityNotFoundException {
+        service.generateData();
     }
 }

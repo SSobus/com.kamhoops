@@ -32,9 +32,9 @@ angular.module('Kamhoops', globalDependencies)
         $routeProvider
             .when('/', {templateUrl: partialsPath + '/main/homepage.html', controller: 'HomepageController'})
             .when('/schedule', {templateUrl: partialsPath + '/main/schedule.html', controller: 'HomepageController'})
+            .when('/teams', {templateUrl: partialsPath + '/main/teams.html', controller: 'TeamController'})
 
-
-            .when('/generate/news', {templateUrl: '/generate/news'})
+            .when('/generate', {templateUrl: '/generate'})
 
         /**
          * If the route doesn't exist, we'll land the user back to the main logbook list page

@@ -45,4 +45,22 @@ angular.module('Kamhoops.directives', [])
             restrict: 'E',
             replace: true
         };
-    });
+    })
+
+    .directive('teamList', function () {
+        return {
+            templateUrl: '/partials/team/teamList.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+
+    .directive('team', function () {
+        return {
+            templateUrl: '/partials/team/team.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+
+;
