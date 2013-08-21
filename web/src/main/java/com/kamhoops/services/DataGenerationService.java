@@ -21,6 +21,8 @@ import java.util.List;
 
 @Service
 public class DataGenerationService {
+    public final int GENERATE_PLAYER_COUNT = 30;
+
     private static Logger logger = LoggerFactory.getLogger(DataGenerationService.class);
 
     @Autowired
@@ -79,6 +81,8 @@ public class DataGenerationService {
     List<GameTime> gameTimeTestData = new ArrayList<>();
     List<News> newsTestData = new ArrayList<>();
     List<Court> courtTestData = new ArrayList<>();
+    List<Player> playerTestData = new ArrayList<>();
+    List<Team> teamTestData = new ArrayList<>();
 
     private String getRandomFirstName() {
         return firstNames[RandomUtils.nextInt(firstNames.length)];
@@ -272,6 +276,65 @@ public class DataGenerationService {
 
     public News createTestNews() throws EntityValidationException, EntityNotFoundException {
         return newsService.create(getTestNews());
+    }
+
+    public List<Player> generatePlayers(int count) {
+        for (int i = 0; i < count; i++) {
+            playerTestData.add(getTestPlayer());
+        }
+
+        playerTestData = playerService.getRepository().save(playerTestData);
+
+        return playerTestData;
+    }
+
+    public Player getRandomPlayer() {
+        if (playerTestData.size() == 0) {
+            generatePlayers(GENERATE_PLAYER_COUNT);
+        }
+
+        return playerTestData.get(RandomUtils.nextInt(playerTestData.size()));
+    }
+
+    public Player getTestPlayer() {
+        Player player = new Player();
+        player.setFirstName(firstNames[RandomUtils.nextInt(firstNames.length)]);
+        player.setLastName(lastNames[RandomUtils.nextInt(lastNames.length)]);
+
+        return player;
+    }
+
+    public Player createTestPlayer() throws EntityNotFoundException, EntityValidationException {
+        return playerService.create(getTestPlayer());
+    }
+
+    public List<Team> generateTeams(int count) {
+        for (int i = 0; i < count; i++) {
+            teamTestData.add(getTestTeam());
+        }
+
+        teamTestData = teamService.getRepository().save(teamTestData);
+
+        return teamTestData;
+    }
+
+    public Team getRandomTeam() {
+        if (teamTestData.size() == 0) {
+            generateTeams(GENERATE_PLAYER_COUNT);
+        }
+
+        return teamTestData.get(RandomUtils.nextInt(teamTestData.size()));
+    }
+
+    public Team getTestTeam() {
+        Team team = new Team();
+        team.setName(RandomStringUtils.randomAlphabetic(10));
+
+        return team;
+    }
+
+    public Team createTestTeam() throws EntityNotFoundException, EntityValidationException {
+        return teamService.create(getTestTeam());
     }
 
 

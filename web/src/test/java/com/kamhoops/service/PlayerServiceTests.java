@@ -72,7 +72,7 @@ public class PlayerServiceTests extends BaseTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void shouldThrowIllegalArgumentExceptionWhenUpdatingWithANullId() throws EntityNotFoundException, EntityValidationException {
-        Player player = new Player();
+        Player player = dataGenerator.createTestPlayer();
         player.setId(null);
 
         playerService.update(player);
@@ -80,23 +80,30 @@ public class PlayerServiceTests extends BaseTest {
 
     @Test(expected = EntityValidationException.class)
     public void shouldThrowEntityValidationExceptionWhenUpdatingWithABlankFirstName() throws EntityNotFoundException, EntityValidationException {
-        Player player = new Player();
+        Player player = dataGenerator.createTestPlayer();
         player.setFirstName(" ");
-        player.setLastName("LastName");
 
         playerService.update(player);
     }
 
     @Test(expected = EntityValidationException.class)
     public void shouldThrowEntityValidationExceptionWhenUpdatingWithABlankLastName() throws EntityNotFoundException, EntityValidationException {
-        Player player = new Player();
-        player.setFirstName("FirstName");
+        Player player = dataGenerator.createTestPlayer();
         player.setLastName(" ");
 
         playerService.update(player);
     }
 
-    //TODO: Test Success Updater
+    @Test
+    public void shouldUpdatePlayer() throws EntityValidationException, EntityNotFoundException {
+        Player player = dataGenerator.createTestPlayer();
+
+        player.setFirstName("NewName");
+
+        player = playerService.update(player);
+
+        assertTrue(player.getFirstName().equals("NewName"));
+    }
 
     //TODO: Test Add and Remove Team
 
