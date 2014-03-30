@@ -12,9 +12,9 @@
     <property name="tomcat-logs" value="${catalina.base}/logs/"/>
 
     <appender name="DEFAULT" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${tomcat-logs}crm.log</file>
+        <file>${tomcat-logs}web.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${tomcat-logs}crm.%d{yyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${tomcat-logs}web.%d{yyy-MM-dd}.log</fileNamePattern>
 
             <!-- 30 Days -->
             <maxHistory>30</maxHistory>
@@ -31,8 +31,9 @@
 
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.security" level="ERROR"/>
-    <logger name="org.apache" level="ERROR"/>
+    <logger name="org.apache" level="ALL"/>
     <logger name="org.hibernate" level="ERROR"/>
     <logger name="com.kamhoops" level="ALL"/>
+    <logger name="org.apache.catalina" level="FINEST" />
 
 </configuration>

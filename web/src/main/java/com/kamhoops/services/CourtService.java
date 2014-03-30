@@ -52,12 +52,7 @@ public class CourtService extends AbstractService<CourtRepository, Court> {
 
     @Override
     public CourtRepository getRepository() {
-        return repository;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Autowired
-    public void setRepository(CourtRepository repository) {
-        this.repository = repository;
+        return repository;
     }
 
     @Override

@@ -83,11 +83,6 @@ public class PlayerService extends AbstractService<PlayerRepository, Player> {
         return repository;
     }
 
-    @Autowired
-    public void setRepository(PlayerRepository playerRepository) {
-        repository = playerRepository;
-    }
-
     @Override
     public Class<Player> getEntityTypeClass() {
         return Player.class;

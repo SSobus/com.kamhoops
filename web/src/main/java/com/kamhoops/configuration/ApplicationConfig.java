@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfig {
 
-    @Value("${test.data.generate=false}")
+   @Value("${test.data.generate=false}")
     private boolean testDataGenerationRequired;
 
     @Value("${git.commit.id=}")

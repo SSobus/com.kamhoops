@@ -1,6 +1,6 @@
 package com.kamhoops.configuration;
 
-import org.hibernate.ejb.HibernatePersistence;
+import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +26,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories("com.kamhoops.data.repository")
@@ -36,8 +37,8 @@ public class PersistenceJpaConfig {
     @Value("${jpa.database.type=POSTGRES}")
     private PersistenceJpaConfig.DatabaseType databaseType;
 
-    public static enum DatabaseType {
-        POSTGRES, H2
+    public DatabaseType getDatabaseType() {
+        return databaseType;
     }
 
     @Bean
@@ -75,7 +76,7 @@ public class PersistenceJpaConfig {
             }
         }
 
-        factoryBean.setPersistenceProvider(new HibernatePersistence());
+        factoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
         factoryBean.setJpaVendorAdapter(vendorAdapter);
 
         Map<String, Object> properties = new HashMap<>();
@@ -120,7 +121,7 @@ public class PersistenceJpaConfig {
         return dataSource;
     }
 
-    public DatabaseType getDatabaseType() {
-        return databaseType;
+    public static enum DatabaseType {
+        POSTGRES, H2
     }
 }

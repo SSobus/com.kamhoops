@@ -201,11 +201,6 @@ public class UserAccountService extends AbstractService<UserAccountRepository, U
         return repository;
     }
 
-    @Autowired
-    public void setRepository(UserAccountRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public Class<UserAccount> getEntityTypeClass() {
         return UserAccount.class;

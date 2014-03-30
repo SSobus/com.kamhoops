@@ -54,12 +54,7 @@ public class GameTimeService extends AbstractService<GameTimeRepository, GameTim
 
     @Override
     public GameTimeRepository getRepository() {
-        return repository;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Autowired
-    public void setRepository(GameTimeRepository repository) {
-        this.repository = repository;
+        return repository;
     }
 
     @Override

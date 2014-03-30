@@ -152,11 +152,6 @@ public class SeasonService extends AbstractService<SeasonRepository, Season> {
         return repository;
     }
 
-    @Autowired
-    public void setRepository(SeasonRepository repository) {
-        this.repository = repository;
-    }
-
     @Override
     public Class<Season> getEntityTypeClass() {
         return Season.class;

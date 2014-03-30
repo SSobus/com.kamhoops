@@ -20,6 +20,7 @@ public abstract class AbstractService<REPO extends BaseJpaRepository<ENTITY>, EN
     @Autowired
     private EntityValidator validator;
 
+    @Autowired
     protected REPO repository;
 
     public List<ENTITY> findAll() {
@@ -86,8 +87,6 @@ public abstract class AbstractService<REPO extends BaseJpaRepository<ENTITY>, EN
     }
 
     public abstract REPO getRepository();
-
-    public abstract void setRepository(REPO repository);
 
     public abstract Class<ENTITY> getEntityTypeClass();
 }

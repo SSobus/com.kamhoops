@@ -15,7 +15,7 @@
         Change the following to alter the configuration file set used during runtime. To set the active profile, add the value specified by
         spring.profiles.active (`kamhoops.profile`) in to catalina.properties in Tomcat's /conf folder.
 
-        For IntelliJ, edit the Tomcat 7 Run/Debug settings in Startup/Connection under Run or Debug. Add an environment key matching `kamhoops.profile`
+        For IntelliJ, edit the Tomcat Run/Debug settings in Startup/Connection under Run or Debug. Add an environment key matching `kamhoops.profile`
         and set its value to the profile that you want active. This is a fast way to change the profile setting.
     -->
     <context-param>

@@ -7,13 +7,13 @@ import com.kamhoops.exception.TestingValidationError;
 import com.kamhoops.exceptions.EntityValidationException;
 import com.kamhoops.services.SeasonService;
 import com.kamhoops.support.BaseTest;
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.Date;
+import java.sql.Date;
+import java.time.LocalDate;
 
 import static org.fest.assertions.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -36,7 +36,7 @@ public class SeasonServiceTests extends BaseTest {
     @Test(expected = TestingValidationError.class)
     public void seasonStartDateCannotBeNull() throws TestingValidationError {
         Season season = new Season();
-        season.setEndDate(new LocalDate(2013, 3, 31).toDate());
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 3, 31)));
 
         validateEntity(season);
 
@@ -46,7 +46,7 @@ public class SeasonServiceTests extends BaseTest {
     @Test(expected = TestingValidationError.class)
     public void seasonEndDateCannotBeNull() throws TestingValidationError {
         Season season = new Season();
-        season.setStartDate(new LocalDate(2012, 9, 1).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 9, 1)));
 
         validateEntity(season);
 
@@ -57,8 +57,8 @@ public class SeasonServiceTests extends BaseTest {
     public void shouldThrowEntityValidationExceptionWhenEndDateIsBeforeStartDate() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
-        season.setEndDate(new LocalDate(2012, 9, 1).toDate());
-        season.setStartDate(new LocalDate(2013, 3, 31).toDate());
+        season.setEndDate(Date.valueOf(LocalDate.of(2012, 9, 1)));
+        season.setStartDate(Date.valueOf(LocalDate.of(2013, 3, 31)));
 
         validateEntity(season);
 
@@ -69,13 +69,13 @@ public class SeasonServiceTests extends BaseTest {
     public void shouldThrowEntityValidationExceptionWhenStartDateIsWithinAnotherSeason() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
-        season.setStartDate(new LocalDate(2012, 3, 31).toDate());
-        season.setEndDate(new LocalDate(2013, 9, 1).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 3, 31)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 9, 1)));
         seasonService.create(season);
 
         season = new Season();
-        season.setStartDate(new LocalDate(2012, 4, 30).toDate());
-        season.setEndDate(new LocalDate(2013, 10, 1).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 4, 30)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 10, 1)));
         seasonService.create(season);
     }
 
@@ -83,13 +83,13 @@ public class SeasonServiceTests extends BaseTest {
     public void shouldThrowEntityValidationExceptionWhenEndDateIsWithinAnotherSeason() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
-        season.setStartDate(new LocalDate(2012, 3, 31).toDate());
-        season.setEndDate(new LocalDate(2013, 9, 1).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 3, 31)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 9, 1)));
         seasonService.create(season);
 
         season = new Season();
-        season.setStartDate(new LocalDate(2012, 2, 28).toDate());
-        season.setEndDate(new LocalDate(2013, 8, 1).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 2, 28)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 8, 1)));
         seasonService.create(season);
     }
 
@@ -100,8 +100,8 @@ public class SeasonServiceTests extends BaseTest {
         seasonService.create(season);
 
         Season badSeason = new Season();
-        badSeason.setStartDate(new LocalDate(2014, 2, 28).toDate());
-        badSeason.setEndDate(new LocalDate(2015, 8, 1).toDate());
+        badSeason.setStartDate(Date.valueOf(LocalDate.of(2014, 2, 28)));
+        badSeason.setEndDate(Date.valueOf(LocalDate.of(2015, 8, 1)));
         badSeason.setCurrentSeason(true);
         seasonService.create(badSeason);
     }
@@ -117,8 +117,8 @@ public class SeasonServiceTests extends BaseTest {
     public void shouldCreateASeason() throws EntityValidationException, TestingValidationError, EntityNotFoundException {
         Season season = new Season();
 
-        season.setStartDate(new LocalDate(2012, 9, 1).toDate());
-        season.setEndDate(new LocalDate(2013, 3, 31).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 9, 1)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 3, 31)));
         season.setCurrentSeason(true);
 
         validateEntity(season);
@@ -160,7 +160,7 @@ public class SeasonServiceTests extends BaseTest {
 
     @Test(expected = EntityNotFoundException.class)
     public void shouldThrowEntityNotFoundExceptionWhenFindByDateIsNotFound() throws EntityNotFoundException {
-        seasonService.findByDate(new Date());
+        seasonService.findByDate(Date.valueOf(LocalDate.now()));
     }
 
     @Test

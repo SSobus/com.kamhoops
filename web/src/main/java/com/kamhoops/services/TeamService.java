@@ -82,11 +82,6 @@ public class TeamService extends AbstractService<TeamRepository, Team> {
         return repository;
     }
 
-    @Autowired
-    public void setRepository(TeamRepository teamRepository) {
-        repository = teamRepository;
-    }
-
     @Override
     public Class<Team> getEntityTypeClass() {
         return Team.class;

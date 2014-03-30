@@ -64,11 +64,6 @@ public class NewsService extends AbstractService<NewsRepository, News> {
         return repository;
     }
 
-    @Autowired
-    public void setRepository(NewsRepository newsRepository) {
-        repository = newsRepository;
-    }
-
     @Override
     public Class<News> getEntityTypeClass() {
         return News.class;

@@ -9,7 +9,6 @@ import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.exceptions.EntityValidationException;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.math.RandomUtils;
-import org.joda.time.LocalDate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,44 +16,41 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.PostConstruct;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class DataGenerationService {
+    private static Logger logger = LoggerFactory.getLogger(DataGenerationService.class);
     public final int GENERATE_PLAYER_COUNT = 10;
     public final int GENERATE_TEAM_COUNT = 8;
     public final int GENERATE_NEWS_COUNT = 10;
-
-    private static Logger logger = LoggerFactory.getLogger(DataGenerationService.class);
-
+    List<Season> seasonsTestData = new ArrayList<>();
+    List<GameTime> gameTimeTestData = new ArrayList<>();
+    List<News> newsTestData = new ArrayList<>();
+    List<Court> courtTestData = new ArrayList<>();
+    List<Player> playerTestData = new ArrayList<>();
+    List<Team> teamTestData = new ArrayList<>();
     @Autowired
     private ApplicationConfig applicationConfig;
-
     @Autowired
     private PersistenceJpaConfig persistenceJpaConfig;
-
     @Autowired
     private SeasonService seasonService;
-
     @Autowired
     private GameTimeService gameTimeService;
-
     @Autowired
     private CourtService courtService;
-
     @Autowired
     private TeamService teamService;
-
     @Autowired
     private PlayerService playerService;
-
     @Autowired
     private UserAccountService userAccountService;
-
     @Autowired
     private NewsService newsService;
-
     private String[] firstNames = new String[]{
             "Jaymes", "Derek", "Matt", "Mark", "Tom", "Harry", "Sally", "Sandra", "Paul", "Anastasia", "David", "Alex", "Michael", "Tina", "Zachary", "Bob", "Elise", "Michael",
             "Quincy", "Rob", "Odell", "Winford", "Mauro", "Brooks", "Ricardo", "Theo", "Dorian", "Oscar", "Mark", "Randy", "Al", "Nathan", "Homer", "Sebastian", "Preston", "Harlan",
@@ -67,7 +63,6 @@ public class DataGenerationService {
             "Yvette", "Lorelei", "Carolyn", "Katy", "Jennie", "Paola", "Alayna", "Wendy", "Emelia", "Catherine", "Sophia", "Melody", "Melanie", "Regina", "Brooke",
             "Amber", "Tara", "Sasha", "Tamara", "Trish", "Laura", "Sarah", "Linda", "Maria", "Eriz", "Pamella"
     };
-
     private String[] lastNames = new String[]{
             "Reagan", "Owens", "Smith", "Lewis", "Bowser", "Reyes", "Cipriano", "Porter", "Taylor", "Davis", "Nelson", "Lyle",
             "Wilcox", "Wilmot", "Butters", "Large", "Moreno", "Dyer", "Washington", "Peacock", "Hughes", "Dietz", "Arredondo",
@@ -79,13 +74,6 @@ public class DataGenerationService {
             "Lawson", "Anaya", "Stafford", "Lim", "Reece", "Oliver", "Johnson", "Leavens", "Santiago", "Hahn", "Buster",
             "Hamilton", "Bearden"
     };
-
-    List<Season> seasonsTestData = new ArrayList<>();
-    List<GameTime> gameTimeTestData = new ArrayList<>();
-    List<News> newsTestData = new ArrayList<>();
-    List<Court> courtTestData = new ArrayList<>();
-    List<Player> playerTestData = new ArrayList<>();
-    List<Team> teamTestData = new ArrayList<>();
 
     private String getRandomFirstName() {
         return firstNames[RandomUtils.nextInt(firstNames.length)];
@@ -114,13 +102,13 @@ public class DataGenerationService {
         List<Season> seasons = new ArrayList<>();
 
         Season season = new Season();
-        season.setStartDate(new LocalDate(2011, 9, 1).toDate());
-        season.setEndDate(new LocalDate(2012, 3, 31).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2011, 9, 1)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2012, 3, 31)));
         seasons.add(season);
 
         season = new Season();
-        season.setStartDate(new LocalDate(2012, 9, 1).toDate());
-        season.setEndDate(new LocalDate(2013, 3, 31).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 9, 1)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2013, 3, 31)));
         season.setCurrentSeason(true);
         seasons.add(season);
 
@@ -137,8 +125,8 @@ public class DataGenerationService {
 
     public Season getTestSeason() throws EntityValidationException {
         Season season = new Season();
-        season.setStartDate(new LocalDate(2012, 1, 1).toDate());
-        season.setEndDate(new LocalDate(2012, 12, 31).toDate());
+        season.setStartDate(Date.valueOf(LocalDate.of(2012, 1, 1)));
+        season.setEndDate(Date.valueOf(LocalDate.of(2012, 12, 31)));
 
         return season;
     }

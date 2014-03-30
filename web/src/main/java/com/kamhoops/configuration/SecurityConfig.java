@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
-@ImportResource({"classpath*:*spring-security-context.xml"})
+@ImportResource({"classpath*:spring-security-context.xml"})
 public class SecurityConfig {
 
     @Autowired

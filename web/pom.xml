@@ -44,23 +44,28 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <spring.version>3.2.0.RELEASE</spring.version>
-        <spring.security.version>3.1.4.RELEASE</spring.security.version>
-        <spring.jpa.version>1.2.0.RELEASE</spring.jpa.version>
+        <spring.version>4.0.2.RELEASE</spring.version>
+        <spring.security.version>3.2.3.RELEASE</spring.security.version>
+        <spring.jpa.version>1.5.1.RELEASE</spring.jpa.version>
 
-        <slf4j.version>1.6.4</slf4j.version>
-        <jackson.version>1.9.9</jackson.version>
+        <slf4j.version>1.7.6</slf4j.version>
+        <jackson.version>1.9.13</jackson.version>
+        <javax.servet.api.version>3.1.0</javax.servet.api.version>
 
-        <hibernate.version>4.2.2.Final</hibernate.version>
+        <hibernate.version>4.3.4.Final</hibernate.version>
         <hibernate.jpa.version>4.2.2.Final</hibernate.jpa.version>
-        <hibernate.validator.version>4.3.1.Final</hibernate.validator.version>
+        <hibernate.validator.version>5.1.0.Final</hibernate.validator.version>
 
-        <querydsl.version>2.7.3</querydsl.version>
+        <querydsl.version>3.3.2</querydsl.version>
+        <common.lang.version>3.3.1</common.lang.version>
+        <common.codec.version>1.9</common.codec.version>
 
+        <junit.version>4.10</junit.version>
         <fest.version>1.4</fest.version>
     </properties>
 
     <dependencies>
+
         <!-- Internal Dependencies -->
         <dependency>
             <groupId>com.kamhoops</groupId>
@@ -68,7 +73,51 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!-- Hibernate -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Spring security -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>${javax.servet.api.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.jpa.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-core</artifactId>
@@ -78,18 +127,6 @@
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-entitymanager</artifactId>
             <version>${hibernate.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-validator</artifactId>
-            <version>${hibernate.validator.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <groupId>com.mysema.querydsl</groupId>
-            <artifactId>querydsl-jpa</artifactId>
-            <version>${querydsl.version}</version>
         </dependency>
 
         <!-- Database Dependencies -->
@@ -105,75 +142,10 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- Spring  -->
         <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-context</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-webmvc</artifactId>
-            <version>${spring.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-logging</groupId>
-                    <artifactId>commons-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-orm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-oxm</artifactId>
-            <version>${spring.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-jpa</artifactId>
-            <version>${spring.jpa.version}</version>
-        </dependency>
-
-        <!-- Spring security -->
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-config</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-web</artifactId>
-            <version>${spring.security.version}</version>
-        </dependency>
-
-        <!-- Joda Time -->
-        <dependency>
-            <groupId>joda-time</groupId>
-            <artifactId>joda-time</artifactId>
-            <version>2.0</version>
-        </dependency>
-
-        <!-- Servlet -->
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.5</version>
-            <scope>provided</scope>
+            <groupId>com.mysema.querydsl</groupId>
+            <artifactId>querydsl-jpa</artifactId>
+            <version>${querydsl.version}</version>
         </dependency>
 
         <!-- Velocity -->
@@ -206,13 +178,11 @@
             <version>1.0.0</version>
         </dependency>
 
-        <!-- Testing -->
-
         <!--  JUnit -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.10</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -230,121 +200,15 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- Mockito -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <version>1.9.0</version>
-            <scope>test</scope>
-        </dependency>
-
-        <!-- Email -->
-        <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.4.4</version>
-        </dependency>
-
-        <!-- Google Java -->
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>r09</version>
-        </dependency>
-
-        <!-- Jackson Mapper (JSON) -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-core-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>${jackson.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
-        <!-- Configure the test goal -->
-        <testSourceDirectory>src/test/java/</testSourceDirectory>
-
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
                 <filtering>true</filtering>
             </resource>
         </resources>
-
-        <plugins>
-            <!-- Provide git commit information -->
-            <plugin>
-                <groupId>pl.project13.maven</groupId>
-                <artifactId>git-commit-id-plugin</artifactId>
-                <version>2.1.4</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>revision</goal>
-                        </goals>
-                    </execution>
-                </executions>
-
-                <configuration>
-                    <prefix>git</prefix>
-                    <dateFormat>dd.MM.yyyy '@' HH:mm:ss z</dateFormat>
-                    <verbose>true</verbose>
-                    <dotGitDirectory>${project.basedir}/.git</dotGitDirectory>
-
-                    <!-- ALTERNATE SETUP - GENERATE FILE -->
-                    <!--
-                        If you want to keep git information, even in your WAR file etc,
-                        use this mode, which will generate a properties file (with filled out values)
-                        which you can then normally read using new Properties().load(/**/)
-                    -->
-
-                    <generateGitPropertiesFile>true</generateGitPropertiesFile>
-                    <generateGitPropertiesFilename>src/main/resources/common/git.properties
-                    </generateGitPropertiesFilename>
-                    <failOnNoGitDirectory>true</failOnNoGitDirectory>
-
-                    <!-- @since 2.1.0 -->
-                    <!--
-                        read up about git-describe on the in man, or it's homepage - it's a really powerful versioning helper
-                        and the recommended way to use git-commit-id-plugin. The configuration bellow is optional,
-                        by default describe will run "just like git-describe on the command line", even though it's a JGit reimplementation.
-                    -->
-                    <gitDescribe>
-                        <skip>false</skip>
-                        <always>false</always>
-                        <abbrev>10</abbrev>
-                        <dirty>-dirty</dirty>
-                        <forceLongFormat>true</forceLongFormat>
-                    </gitDescribe>
-                </configuration>
-            </plugin>
-
-            <!-- Configure Test Runner for Maven -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.15</version>
-                <configuration>
-                    <includes>
-                        <include>**/*Tests.java</include>
-                        <include>**/*Test.java</include>
-                    </includes>
-
-                    <redirectTestOutputToFile>true</redirectTestOutputToFile>
-
-                    <skip>false</skip>
-                    <skipTests>true</skipTests>
-
-                    <failIfNoTests>true</failIfNoTests>
-                </configuration>
-            </plugin>
-        </plugins>
 
         <pluginManagement>
             <plugins>
@@ -353,8 +217,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.1</version>
                     <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
             </plugins>

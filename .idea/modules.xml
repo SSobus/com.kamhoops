@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/web/com.kamhoops (App).iml" filepath="$PROJECT_DIR$/web/com.kamhoops (App).iml" />
-      <module fileurl="file://$PROJECT_DIR$/data/com.kamhoops (Data).iml" filepath="$PROJECT_DIR$/data/com.kamhoops (Data).iml" />
+      <module fileurl="file://$PROJECT_DIR$/data/data.iml" filepath="$PROJECT_DIR$/data/data.iml" />
       <module fileurl="file://$PROJECT_DIR$/kamhoops.iml" filepath="$PROJECT_DIR$/kamhoops.iml" />
+      <module fileurl="file://$PROJECT_DIR$/web/web.iml" filepath="$PROJECT_DIR$/web/web.iml" />
     </modules>
   </component>
 </project>
