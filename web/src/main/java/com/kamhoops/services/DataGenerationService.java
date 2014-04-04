@@ -27,6 +27,8 @@ public class DataGenerationService {
     public final int GENERATE_PLAYER_COUNT = 10;
     public final int GENERATE_TEAM_COUNT = 8;
     public final int GENERATE_NEWS_COUNT = 10;
+    public final int GENERATE_CALENDAR_COUNT = 10;
+    public final int GENERATE_GAME_COUNT = 4;
 
     List<Season> seasonsTestData = new ArrayList<>();
     List<GameTime> gameTimeTestData = new ArrayList<>();
@@ -34,6 +36,9 @@ public class DataGenerationService {
     List<Court> courtTestData = new ArrayList<>();
     List<Player> playerTestData = new ArrayList<>();
     List<Team> teamTestData = new ArrayList<>();
+    List<Calendar> calendarTestData = new ArrayList<>();
+    List<Game> gameTestData = new ArrayList<>();
+
     @Autowired
     private ApplicationConfig applicationConfig;
     @Autowired
@@ -42,6 +47,10 @@ public class DataGenerationService {
     private SeasonService seasonService;
     @Autowired
     private GameTimeService gameTimeService;
+    @Autowired
+    private GameService gameService;
+    @Autowired
+    private CalendarService calendarService;
     @Autowired
     private CourtService courtService;
     @Autowired
@@ -52,6 +61,7 @@ public class DataGenerationService {
     private UserAccountService userAccountService;
     @Autowired
     private NewsService newsService;
+
     private String[] firstNames = new String[]{
             "Jaymes", "Derek", "Matt", "Mark", "Tom", "Harry", "Sally", "Sandra", "Paul", "Anastasia", "David", "Alex", "Michael", "Tina", "Zachary", "Bob", "Elise", "Michael",
             "Quincy", "Rob", "Odell", "Winford", "Mauro", "Brooks", "Ricardo", "Theo", "Dorian", "Oscar", "Mark", "Randy", "Al", "Nathan", "Homer", "Sebastian", "Preston", "Harlan",
@@ -88,8 +98,14 @@ public class DataGenerationService {
         return RandomStringUtils.randomAlphabetic(5).toLowerCase() + "@kamhoops.com";
     }
 
+    public Date getRandomDate() {
+        Date date = Date.valueOf(LocalDate.of(2012, RandomUtils.nextInt(12) + 1, RandomUtils.nextInt(28) + 1));
+        return date;
+    }
+
     public void deleteAll() {
         userAccountService.getRepository().deleteAll();
+
 
         gameTimeService.getRepository().deleteAll();
         seasonService.getRepository().deleteAll();
@@ -169,6 +185,7 @@ public class DataGenerationService {
         return gameTimeService.create(getTestGameTime());
     }
 
+    //COURT FUNCTIONS
     public void generateCourts() {
         List<Court> courts = new ArrayList<>();
 
@@ -201,37 +218,81 @@ public class DataGenerationService {
         return courtService.create(getTestCourt());
     }
 
-    //USER ACCOUNT FUNCTIONS
-    public void setAdminUserDetails(UserAccount user) {
-        user.setUsername(getRandomFirstName().toLowerCase() + getRandomLastName().toLowerCase());
-        user.setEmail(getRandomEmail());
-        user.setPassword("1234");
-        user.setUserRole(UserRole.ROLE_ADMIN);
+    //GAME FUNCTIONS
+    public List<Game> generateGames() {
+        List<Game> games = new ArrayList<>();
+
+        for (int i = 0; i < GENERATE_GAME_COUNT; i++) {
+            Game game = new Game();
+            game.setAway(getRandomTeam());
+            game.setHome(getRandomTeam());
+            game.setGameTime(getRandomGameTime());
+            game.setCourt(getRandomCourt());
+            game.setHomeScore(RandomUtils.nextInt(50) + 50);
+            game.setAwayScore(RandomUtils.nextInt(50) + 50);
+            games.add(game);
+        }
+
+        return gameTestData = gameService.getRepository().save(games);
     }
 
-    public void setCaptainUserDetails(UserAccount user) {
-        user.setUsername(getRandomFirstName().toLowerCase() + getRandomLastName().toLowerCase());
-        user.setEmail(getRandomEmail());
-        user.setPassword("1234");
-        user.setUserRole(UserRole.ROLE_CAPTAIN);
+    public Game getRandomGame() {
+        if (gameService.getRepository().count() == 0)
+            generateGames();
+
+        return gameTestData.get(RandomUtils.nextInt(gameTestData.size()));
     }
 
-    public UserAccount getRandomAdminUser() {
-        UserAccount user = new UserAccount();
+    public Game getTestGame() throws EntityValidationException, EntityNotFoundException {
+        Game game = new Game();
 
-        setAdminUserDetails(user);
+        game.setCourt(createTestCourt());
+        game.setGameTime(createTestGameTime());
+        game.setHome(createTestTeam());
+        game.setAway(createTestTeam());
+        game.setAwayScore(RandomUtils.nextInt(50) + 50);
+        game.setHomeScore(RandomUtils.nextInt(50) + 50);
 
-        return user;
+        return game;
     }
 
-    public UserAccount getRandomCaptainUser() {
-        UserAccount user = new UserAccount();
-
-        setCaptainUserDetails(user);
-
-        return user;
+    public Game createTestGame() throws EntityValidationException, EntityNotFoundException {
+        return gameService.create(getTestGame());
     }
 
+    //CALENDAR FUNCTIONS
+    public List<Calendar> generateCalendars() throws EntityValidationException {
+        List<Calendar> calendars = new ArrayList<>();
+
+        for (int i = 0; i < GENERATE_CALENDAR_COUNT; i++) {
+            Calendar calendar = new Calendar();
+            calendar.setGameDay(getRandomDate());
+            calendar.setSeason(getRandomSeason());
+            calendars.add(calendar);
+        }
+
+        return calendarTestData = calendarService.getRepository().save(calendars);
+    }
+
+    public Calendar getRandomCalendar() throws EntityValidationException {
+        if (calendarService.getRepository().count() == 0)
+            generateCalendars();
+
+        return calendarTestData.get(RandomUtils.nextInt(calendarTestData.size()));
+    }
+
+    public Calendar getTestCalendar() {
+        Calendar calendar = new Calendar();
+        calendar.setGameDay(getRandomDate());
+
+        return calendar;
+    }
+
+    public Calendar createTestCalendar() throws EntityValidationException, EntityNotFoundException {
+        return calendarService.create(getTestCalendar());
+    }
+
+    //NEWS FUNCTIONS
     public void generateNews(int count) {
         logger.info("Test News Data Generation Requested");
         News news;
@@ -270,6 +331,7 @@ public class DataGenerationService {
         return newsService.create(getTestNews());
     }
 
+    //PLAYER FUNCTIONS
     public List<Player> generatePlayers(int count) {
         for (int i = 0; i < count; i++) {
             playerTestData.add(getTestPlayer());
@@ -300,6 +362,7 @@ public class DataGenerationService {
         return playerService.create(getTestPlayer());
     }
 
+    //TEAM FUNCTIONS
     public List<Team> generateTeams(int count) {
         for (int i = 0; i < count; i++) {
             teamTestData.add(getTestTeam());
@@ -345,6 +408,52 @@ public class DataGenerationService {
         }
     }
 
+    @Transactional
+    public void generateCalendarAndGames() throws EntityNotFoundException, EntityValidationException {
+        Calendar calendar;
+        Game game;
+
+        for (int c = 0; c < GENERATE_CALENDAR_COUNT; c++) {
+            calendar = createTestCalendar();
+
+            for (int g = 0; g < GENERATE_GAME_COUNT; g++) {
+                game = createTestGame();
+                game.setCalendar(calendar);
+                calendarService.addGame(calendar, game);
+            }
+        }
+    }
+
+    //USER ACCOUNT FUNCTIONS
+    public void setAdminUserDetails(UserAccount user) {
+        user.setUsername(getRandomFirstName().toLowerCase() + getRandomLastName().toLowerCase());
+        user.setEmail(getRandomEmail());
+        user.setPassword("1234");
+        user.setUserRole(UserRole.ROLE_ADMIN);
+    }
+
+    public void setCaptainUserDetails(UserAccount user) {
+        user.setUsername(getRandomFirstName().toLowerCase() + getRandomLastName().toLowerCase());
+        user.setEmail(getRandomEmail());
+        user.setPassword("1234");
+        user.setUserRole(UserRole.ROLE_CAPTAIN);
+    }
+
+    public UserAccount getRandomAdminUser() {
+        UserAccount user = new UserAccount();
+
+        setAdminUserDetails(user);
+
+        return user;
+    }
+
+    public UserAccount getRandomCaptainUser() {
+        UserAccount user = new UserAccount();
+
+        setCaptainUserDetails(user);
+
+        return user;
+    }
 
     @PostConstruct
     public void postConstruct() throws EntityValidationException {
@@ -369,5 +478,6 @@ public class DataGenerationService {
         generateGameTimes();
 
         generateTeamAndPlayers();
+        generateCalendarAndGames();
     }
 }

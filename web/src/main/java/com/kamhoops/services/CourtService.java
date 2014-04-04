@@ -4,7 +4,6 @@ import com.kamhoops.data.domain.Court;
 import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.data.repository.CourtRepository;
 import com.kamhoops.exceptions.EntityValidationException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -20,8 +19,8 @@ public class CourtService extends AbstractService<CourtRepository, Court> {
     }
 
     private void preCreateChecks(Court court) throws EntityValidationException {
-        Assert.notNull(court, "Supplied gameTime cannot be null");
-        Assert.isNull(court.getId(), "Supplied gameTime cannot have an Id, are you sure this object should be created");
+        Assert.notNull(court, "Supplied court cannot be null");
+        Assert.isNull(court.getId(), "Supplied court cannot have an Id, are you sure this object should be created");
 
         validateEntity(court);
     }
@@ -35,8 +34,8 @@ public class CourtService extends AbstractService<CourtRepository, Court> {
     }
 
     private Court preUpdateChecksAndMerges(Court court) throws EntityValidationException, EntityNotFoundException {
-        Assert.notNull(court, "Supplied gameTime cannot be null");
-        Assert.notNull(court.getId(), "Supplied gameTime does not have an Id, are you sure this object should be updated");
+        Assert.notNull(court, "Supplied court cannot be null");
+        Assert.notNull(court.getId(), "Supplied court does not have an Id, are you sure this object should be updated");
 
         validateEntity(court);
 
