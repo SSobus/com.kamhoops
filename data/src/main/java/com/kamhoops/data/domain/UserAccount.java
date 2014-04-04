@@ -4,29 +4,25 @@ import com.kamhoops.data.domain.base.AbstractEntity;
 import com.kamhoops.data.domain.enums.UserRole;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.annotations.Index;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Transient;
+import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.util.Calendar;
 import java.util.Date;
 
 @Entity
+@Table(indexes = {@Index(name = "user_account_username_index", columnList = "username"),
+        @Index(name = "user_account_email_index", columnList = "email")})
 @SequenceGenerator(name = "id_gen", sequenceName = "users_sequence")
 public class UserAccount extends AbstractEntity {
 
     @Column(unique = true)
-    @Index(name = "username")
     @NotBlank
     private String username;
 
     @Column(unique = true)
-    @Index(name = "email")
     @NotBlank
     @Email
     private String email;

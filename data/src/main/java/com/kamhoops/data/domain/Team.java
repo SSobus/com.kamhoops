@@ -1,8 +1,6 @@
 package com.kamhoops.data.domain;
 
 import com.kamhoops.data.domain.base.AbstractEntity;
-import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
@@ -35,13 +33,11 @@ public class Team extends AbstractEntity {
         this.name = name;
     }
 
-    @JsonIgnore
-    public List<Player> getPlayer() {
+    public List<Player> getPlayers() {
         return players;
     }
 
-    @JsonProperty
-    public void setPlayer(List<Player> players) {
+    public void setPlayers(List<Player> players) {
         this.players = players;
     }
 

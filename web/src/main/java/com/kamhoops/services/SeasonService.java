@@ -6,7 +6,6 @@ import com.kamhoops.data.exceptions.EntityNotFoundException;
 import com.kamhoops.data.repository.SeasonRepository;
 import com.kamhoops.exceptions.EntityValidationException;
 import com.mysema.query.types.expr.BooleanExpression;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.validation.FieldError;

@@ -117,14 +117,14 @@ angular.module('Kamhoops.services', [])
                 a[d] = a[d] || b;
             }
         })
-            (function () {
-                try {
-                    console.log();
-                    return window.console;
-                } catch (a) {
-                    return (window.console = {});
-                }
-            }());
+        (function () {
+            try {
+                console.log();
+                return window.console;
+            } catch (a) {
+                return (window.console = {});
+            }
+        }());
 
         function addEvent(type, message) {
             events.push({position: events.length, type: type, message: message, created: new Date().getTime()});
@@ -318,6 +318,24 @@ angular.module('Kamhoops.services', [])
         };
 
         /**
+         * Generic function to remove an object from a list
+         * @param entityId
+         * @param objectList
+         */
+        var removeEntityFromObjectList = function (entity, objectList) {
+            if (objectList.data.length == 0) {
+                return;
+            }
+
+            var index = objectList.data.indexOf(entity);
+            if (index >= 0) {
+                objectList.data.splice(index, 1);
+            }
+
+            objectList.isLoading = false;
+        };
+
+        /**
          * Generic POST to toggle the active status of an entity
          * @param objectUrlWithId
          * @param callbacks
@@ -342,7 +360,7 @@ angular.module('Kamhoops.services', [])
                     });
                 })
             ;
-        }
+        };
 
         /**
          * Create an error object to represent errors returned from the server

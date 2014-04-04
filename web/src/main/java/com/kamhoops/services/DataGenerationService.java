@@ -27,6 +27,7 @@ public class DataGenerationService {
     public final int GENERATE_PLAYER_COUNT = 10;
     public final int GENERATE_TEAM_COUNT = 8;
     public final int GENERATE_NEWS_COUNT = 10;
+
     List<Season> seasonsTestData = new ArrayList<>();
     List<GameTime> gameTimeTestData = new ArrayList<>();
     List<News> newsTestData = new ArrayList<>();

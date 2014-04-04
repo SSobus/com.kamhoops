@@ -63,4 +63,20 @@ angular.module('Kamhoops.directives', [])
         };
     })
 
+    .directive('playerList', function () {
+        return {
+            templateUrl: '/partials/player/playerList.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+
+    .directive('player', function () {
+        return {
+            templateUrl: '/partials/player/player.html',
+            restrict: 'E',
+            replace: true
+        };
+    })
+
 ;
